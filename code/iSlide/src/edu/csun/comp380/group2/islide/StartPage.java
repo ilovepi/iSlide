@@ -1,7 +1,9 @@
 package edu.csun.comp380.group2.islide;
 
+import edu.csun.comp380.group2.islide.menus.GameDebugMenuActivity;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 
 public class StartPage extends Activity {
@@ -10,6 +12,8 @@ public class StartPage extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_page);
+        Intent i = new Intent(this, GameDebugMenuActivity.class);
+        startActivity(i);
     }
 
 
