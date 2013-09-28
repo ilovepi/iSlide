@@ -15,12 +15,21 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="edu.csun.comp380.group2.islide.StartPage"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="edu.csun.comp380.group2.islide.engine.PlayGameActivity"
+            android:label="@string/title_activity_play_game"
+            android:parentActivityName="org.andengine.ui.activity.SimpleBaseGameActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.andengine.ui.activity.SimpleBaseGameActivity" />
         </activity>
     </application>
 
