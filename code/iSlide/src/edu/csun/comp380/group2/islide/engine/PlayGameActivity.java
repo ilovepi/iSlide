@@ -1,3 +1,20 @@
+/*
+ * 	PlayGameActivity;
+ * 
+ * 	The Activity in which the game takes place.
+ * 	Extras can be passed to this Activity
+ * 		Including:
+ * 
+ *			EXTRA_PUZZLE_COLUMNS - The number of columns in puzzle
+ *			EXTRA_PUZZLE_ROWS - number of rows in puzzle
+ *			EXTRA_IMAGE_PATH - image path location
+ *
+ *	Values that aren't passed will be defaulted to the values in GameConst.java
+ *
+ *	-TT
+ */
+
+
 package edu.csun.comp380.group2.islide.engine;
 
 import org.andengine.engine.camera.Camera;
@@ -28,59 +45,92 @@ import edu.csun.comp380.group2.islide.entity.SlideTile;
 import edu.csun.comp380.group2.islide.util.GameConst;
 
 import android.R;
+import android.os.Bundle;
 
 public class PlayGameActivity extends SimpleBaseGameActivity {
-	
-	private final int CAMERA_WIDTH = GameConst.getInstance().getDefaultCameraWidth();
-	private final int CAMER_HEIGHT = GameConst.getInstance().getDefaultCameraHeight();
-	
+
+	//Need to make dynamic at some point....
+	private final int CAMERA_WIDTH = GameConst.getInstance()
+			.getDefaultCameraWidth();
+	private final int CAMER_HEIGHT = GameConst.getInstance()
+			.getDefaultCameraHeight();
+
 	private Scene mScene;
 	private Camera mCamera;
-	
+
 	BitmapTextureAtlas mGameImage;
 	ITiledTextureRegion mTile;
+
+	Bundle extras;
+
 	PuzzleManager puzzle;
+
+	private int puzzleRows;
+	private int puzzleColumns;
+	private String imagePath;
+	
+	//This important to determine if the image we are using is an
+	//Asset (we provide it) or a File location
+	private boolean useAssetImage;
 	
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		
-		mCamera = new Camera(0,0,CAMERA_WIDTH, CAMER_HEIGHT);
-		EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMER_HEIGHT), mCamera);
+
+		mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMER_HEIGHT);
+		EngineOptions engineOptions = new EngineOptions(true,
+				ScreenOrientation.PORTRAIT_FIXED, new RatioResolutionPolicy(
+						CAMERA_WIDTH, CAMER_HEIGHT), mCamera);
 		return engineOptions;
-		
+
 	}
+
 	@Override
 	protected void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		mGameImage = new BitmapTextureAtlas(this.getTextureManager(),512,512);
-		//mTile = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(mGameImage, getAssets(), "testimage.png", 0, 0, 3, 3);
-		//mGameImage.load();
-		puzzle = new PuzzleManager(480,480,3,3, mGameImage, this, "testimage.png");
+
+		extras = this.getIntent().getExtras();
+
+		if (extras != null) {
+			puzzleColumns = extras.getInt("EXTRA_PUZZLE_COLUMNS");
+			puzzleRows = extras.getInt("EXTRA_PUZZLE_ROWS");
+			//May require reworking when we get more default images
+			if(getIntent().hasExtra("EXTRA_IMAGE_PATH"))
+			{
+				imagePath = extras.getString("EXTRA_IMAGE_PATH");
+				useAssetImage = false;
+			}
+			else
+			{
+				imagePath = GameConst.getInstance().getDefaultImagePath();
+				useAssetImage = true;
+			}
+		}
+		else
+		{
+			puzzleColumns = GameConst.getInstance().getDefaultPuzzleColumns();
+			puzzleRows = GameConst.getInstance().getDefaultPuzzleRows();
+			imagePath = GameConst.getInstance().getDefaultImagePath();
+		}
+		mGameImage = new BitmapTextureAtlas(this.getTextureManager(), 512, 512);
+		puzzle = new PuzzleManager(GameConst.getInstance().getPuzzleWidth(), 
+				GameConst.getInstance().getPuzzleHeight(), puzzleColumns, 
+				puzzleRows, mGameImage, this, imagePath);
 	}
+
 	@Override
 	protected Scene onCreateScene() {
-		
+
 		mScene = new Scene();
-		mScene.registerUpdateHandler(new IUpdateHandler() {
-		    @Override
-		    public void reset() {}
-		    public void onUpdate(float pSecondsElapsed) {
-		        // TODO Auto-generated method stub
-		     
-		    }
-		});
-		
-		
-		mScene.setBackground(new Background(0,125,58));
-		
-		
-		//TiledSprite tileSprite = new TiledSprite(0, 0, mTile, this.getVertexBufferObjectManager());
-		//tileSprite.setCurrentTileIndex(1);
-		//mScene.attachChild(tileSprite);
-		for(SlideTile tile : puzzle.getTiles())
-		{
-			mScene.registerTouchArea(tile);
-			mScene.attachChild(tile);
+		//Allows the puzzle to update every frame
+		mScene.registerUpdateHandler(this.puzzle);
+
+		mScene.setBackground(new Background(0, 125, 58));
+
+		SlideTile[][] tiles = puzzle.getTiles(); 
+		for (int i = 0 ; i < tiles.length; i++) {
+			for(int j = 0;  j < tiles[0].length; j++ ){
+				mScene.registerTouchArea(tiles[i][j]);
+				mScene.attachChild(tiles[i][j]);
+			}
 		}
 		return mScene;
 	}
