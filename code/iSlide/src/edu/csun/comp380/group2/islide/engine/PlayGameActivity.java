@@ -44,7 +44,6 @@ import edu.csun.comp380.group2.islide.entity.PuzzleManager;
 import edu.csun.comp380.group2.islide.entity.SlideTile;
 import edu.csun.comp380.group2.islide.util.GameConst;
 
-import android.R;
 import android.os.Bundle;
 
 public class PlayGameActivity extends SimpleBaseGameActivity {
