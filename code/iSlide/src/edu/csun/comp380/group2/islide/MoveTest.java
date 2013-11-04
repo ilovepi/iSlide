@@ -93,7 +93,7 @@ public class MoveTest {
 		assertTrue("Failed copy in eval test", temp.ary.hashCode() == tester.ary.hashCode());
 		
 		
-		for (int i = 0; i < temp.board_size; ++i)
+		for (byte i = 0; i < temp.board_size; ++i)
 			temp.ary.set(i,i);
 		temp.empty = 0;
 		temp.eval();

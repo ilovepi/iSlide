@@ -38,7 +38,7 @@ public class BoardTest {
 	@Test
 	public void testMove() {
 		Board temp = new Board(4);
-		for (int i = 0; i < temp.board_size; ++i)
+		for (byte i = 0; i < temp.board_size; ++i)
 			temp.ary.set(i,i);
 		temp.empty = 0;
 		//System.out.println("solvability issues <----------");
@@ -71,7 +71,7 @@ public class BoardTest {
 		
 		Board temp = new Board(4);
 		for (int i = 0; i < temp.board_size; ++i)
-			temp.ary = (ArrayList<Integer>) test_board.ary.clone();
+			temp.ary = (ArrayList<Byte>) test_board.ary.clone();
 		temp.empty = test_board.empty;
 		assertTrue("Failed to properly compare Boards -- compare of a handmade copy", test_board.equals(temp));
 		
@@ -84,7 +84,7 @@ public class BoardTest {
 	@Test
 	public void testSolvabiltiy(){
 		Board temp = new Board(4);
-		for (int i = 0; i < temp.board_size; ++i)
+		for (byte i = 0; i < temp.board_size; ++i)
 			temp.ary.set(i,i);
 		temp.empty = 0;
 		assertTrue(Board.solvable(temp));

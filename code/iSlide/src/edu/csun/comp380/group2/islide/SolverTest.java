@@ -36,7 +36,7 @@ public class SolverTest {
 	@Test
 	public void testSolve() {
 		Move temp = new Move(new Board(4));
-		for (int i = 0; i < temp.board_size; ++i)
+		for (byte i = 0; i < temp.board_size; ++i)
 			temp.ary.set(i,i);
 		temp.empty = 0;
 		

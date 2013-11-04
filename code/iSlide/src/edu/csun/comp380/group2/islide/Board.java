@@ -5,10 +5,10 @@ import java.util.Collections;
 
 public class Board {
 	
-	ArrayList<Integer> ary;//! the representation of the game board
-	int empty;//! the index of the empty tile
-	int width;// dimension of the board (N)
-	int board_size;//! total number of tiles (NxN)
+	ArrayList<Byte> ary;//! the representation of the game board
+	byte empty;//! the index of the empty tile
+	byte width;// dimension of the board (N)
+	byte board_size;//! total number of tiles (NxN)
 	
 	/** /brief Constructor for the board class
 	 * 	Creates an NxN board to play a sliding puzzle game with
@@ -16,18 +16,16 @@ public class Board {
 	 */
 	public Board(int size){
 
-		width = size;
-		board_size = width*width;
-		ary = new ArrayList<Integer>(board_size);
+		width = (byte) size;
+		board_size = (byte) (width*width);
+		ary = new ArrayList<Byte>(board_size);
 		
-		for(int i =0; i < board_size; ++i )
-			ary.add( i);
+		for(byte i =0; i < board_size; ++i )
+			ary.add(i);
 
 		java.util.Collections.shuffle(ary);
-		empty = ary.indexOf(0);
-		
-		
-		
+		empty = (byte) ary.indexOf(0);
+
 		
 		while(!solvable())
 		{
@@ -35,7 +33,7 @@ public class Board {
 			int next = (row +1) * width;
 			int safe_index = next%board_size;			
 			Collections.swap(ary, (safe_index ), (safe_index +1) );
-			empty = ary.indexOf(0);
+			empty = (byte) ary.indexOf(0);
 		}
 			
 	}
@@ -47,7 +45,7 @@ public class Board {
 		board_size = other.board_size;
 		empty = other.empty;
 		//ary.addAll(other.ary);
-		ary = (ArrayList<Integer>)other.ary.clone();
+		ary = (ArrayList<Byte>)other.ary.clone();
 	}
 		
 	/** /brief Determines if the puzzle is solvable
@@ -58,7 +56,7 @@ public class Board {
 		int width = board.width;
 		int board_size = board.board_size;
 		int empty = board.empty;
-		ArrayList<Integer> ary =(ArrayList<Integer>)board.ary.clone();
+		ArrayList<Byte> ary =(ArrayList<Byte>)board.ary.clone();
 		
 		//do we have an even number of inversions?
 		boolean even_inversions = true;
@@ -132,7 +130,7 @@ public class Board {
 					|| ( (diff ==1) && empty/width == index/width))//(Math.abs((empty%width) - (index%width)) != (width-1)) ) )
 			{
 				Collections.swap(ary, empty, index);
-				empty = index;
+				empty = (byte) index;
 				return true;
 			}
 			return false;			
