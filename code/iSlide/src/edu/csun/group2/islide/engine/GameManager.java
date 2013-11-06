@@ -1,8 +1,11 @@
 package edu.csun.group2.islide.engine;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import edu.csun.group2.islide.engine.entity.SlideTile;
 import edu.csun.group2.islide.interfaces.IRenderable;
 
 public class GameManager implements IRenderable{
@@ -10,6 +13,7 @@ public class GameManager implements IRenderable{
 	private Texture gameTexture;
 	public boolean running;
 	
+
 	public GameManager()
 	{
 		init();

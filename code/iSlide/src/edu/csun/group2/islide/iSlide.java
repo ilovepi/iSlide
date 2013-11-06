@@ -27,8 +27,11 @@ public class iSlide implements ApplicationListener {
 	private long startTime;
 	private int nPuzzleSize;
 	
-	private Context mContext;
 	
+	public iSlide()
+	{
+		init(null,3,null);
+	}
 	public iSlide(Context pContext) {
 		init(pContext,3,null);
 	}
@@ -41,7 +44,7 @@ public class iSlide implements ApplicationListener {
 	}
 	private void init(Context pContext, int nPuzzle, byte[] img)
 	{
-		this.mContext = pContext;
+		
 		this.nPuzzleSize = nPuzzle;
 		this.img = img;
 	}
