@@ -1,8 +1,5 @@
 package edu.csun.group2.islide;
 
-import android.content.Context;
-import android.content.Intent;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -30,19 +27,10 @@ public class iSlide implements ApplicationListener {
 	
 	public iSlide()
 	{
-		init(null,3,null);
+		init(3,null);
 	}
-	public iSlide(Context pContext) {
-		init(pContext,3,null);
-	}
-	public iSlide(Context pContext, int nPuzzle)
-	{
-		init(pContext, nPuzzle, null);
-	}
-	public iSlide(Context pContext,int nPuzzle, byte[] img) {
-		init(pContext,nPuzzle, img);
-	}
-	private void init(Context pContext, int nPuzzle, byte[] img)
+
+	private void init(int nPuzzle, byte[] img)
 	{
 		
 		this.nPuzzleSize = nPuzzle;
