@@ -1,6 +1,7 @@
 package edu.csun.group2.islide;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -13,25 +14,37 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import edu.csun.group2.islide.engine.GameManager;
+import edu.csun.group2.islide.global.Utility;
 
 public class iSlide implements ApplicationListener {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Texture texture;
+	private Texture gameTexture;
 	private Sprite sprite;
 	private byte[] img;
 	private float screenWidth, screenHeight;
 	GameManager gameManager;
 	private long startTime;
-
+	private int nPuzzleSize;
+	
+	private Context mContext;
+	
 	public iSlide(Context pContext) {
-
+		init(pContext,3,null);
 	}
-
-	public iSlide(Context pContext, byte[] img) {
-
+	public iSlide(Context pContext, int nPuzzle)
+	{
+		init(pContext, nPuzzle, null);
 	}
-
+	public iSlide(Context pContext,int nPuzzle, byte[] img) {
+		init(pContext,nPuzzle, img);
+	}
+	private void init(Context pContext, int nPuzzle, byte[] img)
+	{
+		this.mContext = pContext;
+		this.nPuzzleSize = nPuzzle;
+		this.img = img;
+	}
 	@Override
 	public void create() {
 		float w = screenWidth = Gdx.graphics.getWidth();
@@ -41,6 +54,11 @@ public class iSlide implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 
+		gameTexture = Utility.convertByteArrayToTexture(img);
+		
+		gameManager = new GameManager();
+		gameManager.setImage(gameTexture);
+		
 		startTime = System.currentTimeMillis();
 	}
 
@@ -61,7 +79,7 @@ public class iSlide implements ApplicationListener {
 	}
 
 	private void update(long elapsedMillis) {
-		if (gameManager != null) {
+		if (gameManager != null && gameManager.running) {
 			this.gameManager.update(elapsedMillis);
 		}
 	}
@@ -69,7 +87,7 @@ public class iSlide implements ApplicationListener {
 	private void draw(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
 		{
-			if (gameManager != null) {
+			if (gameManager != null && gameManager.running) {
 				this.gameManager.draw(spriteBatch);
 			}
 		}
@@ -93,5 +111,9 @@ public class iSlide implements ApplicationListener {
 
 	@Override
 	public void resume() {
+	}
+	public void gameOver()
+	{
+
 	}
 }

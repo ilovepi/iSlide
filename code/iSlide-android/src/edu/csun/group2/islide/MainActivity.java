@@ -13,6 +13,6 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
         
-        initialize(new iSlide(this), cfg);
+        initialize(new iSlide(this.getBaseContext()), cfg);
     }
 }
