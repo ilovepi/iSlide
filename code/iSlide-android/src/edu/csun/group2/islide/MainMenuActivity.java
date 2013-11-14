@@ -2,7 +2,9 @@ package edu.csun.group2.islide;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.View;
 
 public class MainMenuActivity extends Activity {
 
@@ -18,5 +20,9 @@ public class MainMenuActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 		return true;
 	}
-
+	public void btnTestGame_onClick(View v)
+	{
+		Intent i = new Intent(this, MainActivity.class);
+		startActivity(i);
+	}
 }

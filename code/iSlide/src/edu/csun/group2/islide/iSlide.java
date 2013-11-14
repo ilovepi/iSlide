@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import edu.csun.group2.islide.engine.GameManager;
+import edu.csun.group2.islide.engine.GameInput;
 import edu.csun.group2.islide.global.Utility;
 
 public class iSlide implements ApplicationListener {
@@ -23,7 +24,7 @@ public class iSlide implements ApplicationListener {
 	GameManager gameManager;
 	private long startTime;
 	private int nPuzzleSize;
-	
+	GameInput input;
 	
 	public iSlide()
 	{
@@ -33,11 +34,13 @@ public class iSlide implements ApplicationListener {
 	private void init(int nPuzzle, byte[] img)
 	{
 		
-		this.nPuzzleSize = nPuzzle;
-		this.img = img;
+		 input = new GameInput();
+
+		
 	}
 	@Override
 	public void create() {
+		Gdx.input.setInputProcessor(input);
 		float w = screenWidth = Gdx.graphics.getWidth();
 		float h = screenHeight = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera(1, h / w);
@@ -45,8 +48,8 @@ public class iSlide implements ApplicationListener {
 		batch.setProjectionMatrix(camera.combined);
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 
-		gameTexture = Utility.convertByteArrayToTexture(img);
-		
+		//gameTexture = Utility.convertByteArrayToTexture(img);
+		gameTexture = new Texture("data/testimage.png");
 		gameManager = new GameManager();
 		gameManager.setImage(gameTexture);
 		
@@ -86,17 +89,6 @@ public class iSlide implements ApplicationListener {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		try {
-			throw new Exception(
-					"Not Implemented \"resize(int width, int height)\"");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
 	public void pause() {
 	}
 
@@ -106,5 +98,14 @@ public class iSlide implements ApplicationListener {
 	public void gameOver()
 	{
 
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		
+		float w = screenWidth = Gdx.graphics.getWidth();
+		float h = screenHeight = Gdx.graphics.getHeight();
+		camera = new OrthographicCamera(1, h / w);
+		batch.setProjectionMatrix(camera.combined);
 	}
 }
