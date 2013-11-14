@@ -1,9 +1,9 @@
 package edu.csun.group2.islide.engine.entity;
 
-import java.awt.Rectangle;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 import edu.csun.group2.islide.interfaces.IRenderable;
 
@@ -11,7 +11,7 @@ public class SlideTile implements IRenderable {
 
 	Sprite sprite;
 	int x, y, width,height;
-	public Rectangle rect;
+	public com.badlogic.gdx.math.Rectangle rect;
 	public int tileId;
 	public SlideTile(int x, int y, int width, int height, Sprite sprite,int tileId)
 	{

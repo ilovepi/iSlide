@@ -1,16 +1,16 @@
 package edu.csun.group2.islide.global;
 
-import java.awt.Rectangle;
+import com.badlogic.gdx.math.Rectangle;
+
 
 
 public class GameInfo {
 
-	public byte[] imageData;
-	public Rectangle touchPoint;
-	public int touchedX, touchedY;
-	public boolean screenTouched;
+	public Rectangle touchPoint = new Rectangle();
+	public int touchedX = 0, touchedY= 0 ;
+	public boolean screenTouched = false;
 	
-	private static GameInfo INSTANCE = null;
+	private static GameInfo INSTANCE = new GameInfo();
 	public static GameInfo getInstance()
 	{
 		if(INSTANCE == null)

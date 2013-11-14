@@ -1,8 +1,9 @@
 package edu.csun.group2.islide.engine;
 
-import java.awt.Rectangle;
+
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Rectangle;
 
 import edu.csun.group2.islide.global.GameInfo;
 
@@ -40,7 +41,7 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		GameInfo.getInstance().touchPoint = null;
+		//GameInfo.getInstance().touchPoint = null;
 		GameInfo.getInstance().screenTouched = false;
 		return false;
 	}

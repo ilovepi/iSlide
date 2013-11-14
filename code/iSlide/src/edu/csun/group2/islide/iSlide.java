@@ -52,7 +52,7 @@ public class iSlide implements ApplicationListener {
 		gameTexture = new Texture("data/testimage.png");
 		gameManager = new GameManager();
 		gameManager.setImage(gameTexture);
-		
+		gameManager.start();
 		startTime = System.currentTimeMillis();
 	}
 

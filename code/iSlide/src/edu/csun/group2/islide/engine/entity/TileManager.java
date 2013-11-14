@@ -40,31 +40,32 @@ public class TileManager implements IRenderable {
 				counter++;
 			}
 		}
-		tiles[0][0] = new SlideTile(0, 0, pixelWidth, pixelHeight, new Sprite(new Texture("data/emptytexture.png"), 0, 0, pixelWidth, pixelHeight),0);
+		tiles[0][0] = new SlideTile(0, 0, pixelWidth, pixelHeight, new Sprite(
+				new Texture("data/emptytexture.png"), 0, 0, pixelWidth,
+				pixelHeight), 0);
 	}
 
 	@Override
 	public void update(long elapsedMillis) {
-
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles[0].length; j++) {
-				if (GameInfo.getInstance().touchPoint
-						.intersects(tiles[i][j].rect) && tiles[i][j].tileId != 0) {
-					if(GameInfo.getInstance().touchPoint.x > GameInfo.getInstance().touchedX + TOUCH_OFFSET)
-					{
-						board.moveTileRight(tiles[i][j]);
-					}
-					else if(GameInfo.getInstance().touchPoint.x < GameInfo.getInstance().touchedX - TOUCH_OFFSET)
-					{
-						board.moveTileLeft(tiles[i][j]);
-					}
-					else if(GameInfo.getInstance().touchPoint.y < GameInfo.getInstance().touchedY - TOUCH_OFFSET)
-					{
-						board.moveTileDown(tiles[i][j]);
-					}
-					else if(GameInfo.getInstance().touchPoint.y > GameInfo.getInstance().touchedY + TOUCH_OFFSET)
-					{
-						board.moveTileUp(tiles[i][j]);
+		if (tiles[0][0] != null) {
+			for (int i = 0; i < tiles.length; i++) {
+				for (int j = 0; j < tiles[0].length; j++) {
+					if (GameInfo.getInstance().touchPoint
+							.overlaps(tiles[i][j].rect)
+							&& tiles[i][j].tileId != 0) {
+						if (GameInfo.getInstance().touchPoint.x > GameInfo
+								.getInstance().touchedX + TOUCH_OFFSET) {
+							board.moveTileRight(tiles[i][j]);
+						} else if (GameInfo.getInstance().touchPoint.x < GameInfo
+								.getInstance().touchedX - TOUCH_OFFSET) {
+							board.moveTileLeft(tiles[i][j]);
+						} else if (GameInfo.getInstance().touchPoint.y < GameInfo
+								.getInstance().touchedY - TOUCH_OFFSET) {
+							board.moveTileDown(tiles[i][j]);
+						} else if (GameInfo.getInstance().touchPoint.y > GameInfo
+								.getInstance().touchedY + TOUCH_OFFSET) {
+							board.moveTileUp(tiles[i][j]);
+						}
 					}
 				}
 			}
