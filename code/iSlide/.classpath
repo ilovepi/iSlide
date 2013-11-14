@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/Documents/adt-bundle-windows-x86_64-20130917/sdk/platforms/android-19/android.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin/Documents/Github/iSlide/code/iSlide/libs/junit-4.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
