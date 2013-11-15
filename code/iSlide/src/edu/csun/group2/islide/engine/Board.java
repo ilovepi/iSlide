@@ -5,10 +5,10 @@ import java.util.Collections;
 
 public class Board {
 	
-	ArrayList<Byte> ary;//! the representation of the game board
-	byte empty;//! the index of the empty tile
-	byte width;// dimension of the board (N)
-	byte board_size;//! total number of tiles (NxN)
+	public ArrayList<Byte> ary;//! the representation of the game board
+	public byte empty;//! the index of the empty tile
+	public byte width;// dimension of the board (N)
+	public byte board_size;//! total number of tiles (NxN)
 	
 	/** /brief Constructor for the board class
 	 * 	Creates an NxN board to play a sliding puzzle game with

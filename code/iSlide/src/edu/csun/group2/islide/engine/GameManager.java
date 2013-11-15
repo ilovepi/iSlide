@@ -6,43 +6,35 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import edu.csun.group2.islide.engine.entity.SlideTile;
+import edu.csun.group2.islide.engine.entity.TileManager;
 import edu.csun.group2.islide.interfaces.IRenderable;
 
 public class GameManager implements IRenderable{
 
-	private Texture gameTexture;
+	public Texture gameTexture;
+	public int size;
 	public boolean running;
-	
+	TileManager tileManager;
 
-	public GameManager()
+	public GameManager(int size, Texture imageTexture)
 	{
-		init();
+		init(size , imageTexture);
 	}
-	private void init()
+	private void init(int size, Texture imageTexture)
 	{
-		this.running = false;
+		this.gameTexture = imageTexture;
+		this.size = size;
+		tileManager = new TileManager(size, imageTexture);
 	}
-	public void setImage(Texture texture)
-	{
-		gameTexture = texture;
-	}
-	public void start()
-	{
-		running = true;
-	}
-	private void stop()
-	{
-		
-	}
+
 	@Override
 	public void update(long elapsedMillis) {
-		// TODO Auto-generated method stub
-		
+		tileManager.update(elapsedMillis);
 	}
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
-		// TODO Auto-generated method stub
+		tileManager.draw(spriteBatch);
 		
 	}
 	

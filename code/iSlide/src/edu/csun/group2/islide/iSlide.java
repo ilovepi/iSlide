@@ -32,9 +32,6 @@ public class iSlide implements ApplicationListener {
 	{
 		init(null,3,null);
 	}
-	public iSlide(Context pContext) {
-		init(pContext,3,null);
-	}
 	public iSlide(Context pContext, int nPuzzle)
 	{
 		init(pContext, nPuzzle, null);
@@ -44,7 +41,6 @@ public class iSlide implements ApplicationListener {
 	}
 	private void init(Context pContext, int nPuzzle, byte[] img)
 	{
-		
 		this.nPuzzleSize = nPuzzle;
 		this.img = img;
 	}
@@ -59,8 +55,7 @@ public class iSlide implements ApplicationListener {
 
 		gameTexture = Utility.convertByteArrayToTexture(img);
 		
-		gameManager = new GameManager();
-		gameManager.setImage(gameTexture);
+		gameManager = new GameManager(3, new Texture("data/testimage.png"));
 		
 		startTime = System.currentTimeMillis();
 	}
@@ -82,7 +77,7 @@ public class iSlide implements ApplicationListener {
 	}
 
 	private void update(long elapsedMillis) {
-		if (gameManager != null && gameManager.running) {
+		if (gameManager != null) {
 			this.gameManager.update(elapsedMillis);
 		}
 	}
@@ -90,7 +85,7 @@ public class iSlide implements ApplicationListener {
 	private void draw(SpriteBatch spriteBatch) {
 		spriteBatch.begin();
 		{
-			if (gameManager != null && gameManager.running) {
+			if (gameManager != null) {
 				this.gameManager.draw(spriteBatch);
 			}
 		}
@@ -99,13 +94,13 @@ public class iSlide implements ApplicationListener {
 
 	@Override
 	public void resize(int width, int height) {
-		try {
-			throw new Exception(
-					"Not Implemented \"resize(int width, int height)\"");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			throw new Exception(
+//					"Not Implemented \"resize(int width, int height)\"");
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
 	@Override
