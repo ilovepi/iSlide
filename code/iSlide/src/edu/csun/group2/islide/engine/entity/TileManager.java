@@ -46,7 +46,7 @@ public class TileManager implements IRenderable {
 		
 		int len = board.ary.size();
 		for (int i = 0; i < len; i++) {
-			int id = (int) board.ary.get(i);
+			int id = (int) board.ary.get(i);// shouldn't this just be id = i ?????????
 			Sprite passSprite;
 			if (id != 0) {
 				passSprite = new Sprite(texture, (id % size) * tWidth,
