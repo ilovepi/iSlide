@@ -40,7 +40,7 @@ public class TileManager implements IRenderable {
 		this.xOffSet = xOffSet;
 		this.yOffSet = yOffSet;
 		tileTexture = texture;
-		board = new Board(3);
+		board = new Board(size);
 		tiles = new ArrayList<SlideTile>();
 		tWidth = texture.getWidth() / size;
 		
@@ -82,7 +82,7 @@ public class TileManager implements IRenderable {
 		{
 			justTouched = false;
 		}
-		int len = board.ary.size();
+		int len = board.board_size;
 		for (int i = 0; i < len; i++) {
 			int id = (int)board.ary.get(i);
 			for (int j = 0; j < tiles.size(); j++) {
