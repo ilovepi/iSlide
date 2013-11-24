@@ -1,30 +1,30 @@
 package edu.csun.group2.islide;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 import edu.csun.group2.islide.engine.GameManager;
-import edu.csun.group2.islide.global.Utility;
+import edu.csun.group2.islide.engine.InputHandler;
+import edu.csun.group2.islide.global.GameInfo;
 
 public class iSlide extends Game {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Sprite testSprite;
 	GameManager gameManager;
 	private long startTime;
 	private Rectangle glViewport;
+	private ShapeRenderer renderer;
 
 	public iSlide() {
 		init(null, 3, null);
@@ -47,15 +47,19 @@ public class iSlide extends Game {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera(w, h);
-		camera.position.set(w / 2, h / 2, 1);
+		camera.setToOrtho(true, w, h);
+		camera.update();
+		// camera.position.set(w / 2, h / 2, 1);
 		glViewport = new Rectangle(0, 0, w, h);
 		batch = new SpriteBatch();
 
 		Gdx.gl.glClearColor(0, 0, 1, 1);
+		InputHandler input = new InputHandler();
+		Gdx.input.setInputProcessor(input);
 
 		// testSprite = new Sprite(new Texture("data/islidelogo.png"));
-
-		gameManager = new GameManager(3, new Texture("data/testimg.jpg"));
+		renderer = new ShapeRenderer();
+		gameManager = new GameManager(3, new Texture("data/testimage.png"));
 
 		batch.setProjectionMatrix(camera.combined);
 		startTime = System.currentTimeMillis();
@@ -85,6 +89,12 @@ public class iSlide extends Game {
 		if (gameManager != null) {
 			this.gameManager.update(elapsedMillis);
 		}
+		if (GameInfo.getInstance().touching
+				&& GameInfo.getInstance().touchRectangle != null) {
+			Gdx.app.debug("TOUCHING: ", "X: "
+					+ GameInfo.getInstance().touchRectangle.x + " Y: "
+					+ GameInfo.getInstance().touchRectangle.y);
+		}
 	}
 
 	private void draw(SpriteBatch spriteBatch) {
@@ -96,6 +106,14 @@ public class iSlide extends Game {
 				}
 			}
 			spriteBatch.end();
+			Rectangle temp = GameInfo.getInstance().touchRectangle;
+			gameManager.GlDraw();
+			if (temp != null) {
+				renderer.setColor(Color.BLACK);
+				renderer.begin(ShapeType.Filled);
+				renderer.rect(temp.x, temp.y, temp.width+3, temp.height+ 3);
+				renderer.end();
+			}
 		}
 	}
 

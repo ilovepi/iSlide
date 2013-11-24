@@ -40,5 +40,11 @@ public class GameManager implements IRenderable{
 		
 	}
 	
-	
+
+	@Override
+	public void GlDraw() {
+		// TODO Auto-generated method stub
+		tileManager.GlDraw();
+		
+	}
 }
