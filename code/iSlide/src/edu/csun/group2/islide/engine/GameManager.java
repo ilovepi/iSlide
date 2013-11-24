@@ -2,6 +2,7 @@ package edu.csun.group2.islide.engine;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -22,9 +23,10 @@ public class GameManager implements IRenderable{
 	}
 	private void init(int size, Texture imageTexture)
 	{
-		this.gameTexture = imageTexture;
 		this.size = size;
-		tileManager = new TileManager(size, imageTexture);
+		int midpt1 = (Gdx.graphics.getWidth() - imageTexture.getWidth())/2;
+		int midpt2 = 0;
+		tileManager = new TileManager(midpt1, midpt2,size, imageTexture);
 	}
 
 	@Override
