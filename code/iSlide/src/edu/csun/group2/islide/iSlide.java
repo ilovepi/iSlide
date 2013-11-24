@@ -1,68 +1,73 @@
 package edu.csun.group2.islide;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 
 import edu.csun.group2.islide.engine.GameManager;
-import edu.csun.group2.islide.global.Utility;
+import edu.csun.group2.islide.engine.InputHandler;
+import edu.csun.group2.islide.global.GameInfo;
 
-public class iSlide implements ApplicationListener {
+public class iSlide extends Game {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Texture gameTexture;
-	private Sprite sprite;
-	private byte[] img;
-	private float screenWidth, screenHeight;
 	GameManager gameManager;
 	private long startTime;
-	private int nPuzzleSize;
-	
-	
-	public iSlide()
-	{
-		init(null,3,null);
+	private Rectangle glViewport;
+	private ShapeRenderer renderer;
+
+	public iSlide() {
+		init(null, 3, null);
 	}
-	public iSlide(Context pContext, int nPuzzle)
-	{
+
+	public iSlide(Context pContext, int nPuzzle) {
 		init(pContext, nPuzzle, null);
 	}
-	public iSlide(Context pContext,int nPuzzle, byte[] img) {
-		init(pContext,nPuzzle, img);
+
+	public iSlide(Context pContext, int nPuzzle, byte[] img) {
+		init(pContext, nPuzzle, img);
 	}
-	private void init(Context pContext, int nPuzzle, byte[] img)
-	{
-		this.nPuzzleSize = nPuzzle;
-		this.img = img;
+
+	private void init(Context pContext, int nPuzzle, byte[] img) {
+
 	}
+
 	@Override
 	public void create() {
-		float w = screenWidth = Gdx.graphics.getWidth();
-		float h = screenHeight = Gdx.graphics.getHeight();
-		camera = new OrthographicCamera(1, h / w);
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+		camera = new OrthographicCamera(w, h);
+		camera.setToOrtho(true, w, h);
+		camera.update();
+		// camera.position.set(w / 2, h / 2, 1);
+		glViewport = new Rectangle(0, 0, w, h);
 		batch = new SpriteBatch();
-		batch.setProjectionMatrix(camera.combined);
-		Gdx.gl.glClearColor(1, 1, 1, 1);
 
-		gameTexture = Utility.convertByteArrayToTexture(img);
-		
+		Gdx.gl.glClearColor(0, 0, 1, 1);
+		InputHandler input = new InputHandler();
+		Gdx.input.setInputProcessor(input);
+
+		// testSprite = new Sprite(new Texture("data/islidelogo.png"));
+		renderer = new ShapeRenderer();
 		gameManager = new GameManager(3, new Texture("data/testimage.png"));
-		
+
+		batch.setProjectionMatrix(camera.combined);
 		startTime = System.currentTimeMillis();
 	}
 
 	@Override
 	public void dispose() {
-
+		super.dispose();
 	}
 
 	@Override
@@ -71,8 +76,12 @@ public class iSlide implements ApplicationListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		{
 			update(System.currentTimeMillis() - startTime);
+			camera.update();
+			batch.setProjectionMatrix(camera.combined);
 			draw(batch);
 		}
+		Gdx.gl.glViewport((int) glViewport.x, (int) glViewport.y,
+				(int) glViewport.width, (int) glViewport.height);
 
 	}
 
@@ -80,38 +89,50 @@ public class iSlide implements ApplicationListener {
 		if (gameManager != null) {
 			this.gameManager.update(elapsedMillis);
 		}
+		if (GameInfo.getInstance().touching
+				&& GameInfo.getInstance().touchRectangle != null) {
+			Gdx.app.debug("TOUCHING: ", "X: "
+					+ GameInfo.getInstance().touchRectangle.x + " Y: "
+					+ GameInfo.getInstance().touchRectangle.y);
+		}
 	}
 
 	private void draw(SpriteBatch spriteBatch) {
-		spriteBatch.begin();
-		{
-			if (gameManager != null) {
-				this.gameManager.draw(spriteBatch);
+		if (spriteBatch != null) {
+			spriteBatch.begin();
+			{
+				if (gameManager != null) {
+					this.gameManager.draw(spriteBatch);
+				}
+			}
+			spriteBatch.end();
+			Rectangle temp = GameInfo.getInstance().touchRectangle;
+			gameManager.GlDraw();
+			if (temp != null) {
+				renderer.setColor(Color.BLACK);
+				renderer.begin(ShapeType.Filled);
+				renderer.rect(temp.x, temp.y, temp.width+3, temp.height+ 3);
+				renderer.end();
 			}
 		}
-		spriteBatch.end();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-//		try {
-//			throw new Exception(
-//					"Not Implemented \"resize(int width, int height)\"");
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		super.resize(width, height);
 	}
 
 	@Override
 	public void pause() {
+		super.pause();
 	}
 
 	@Override
 	public void resume() {
+		super.resume();
 	}
-	public void gameOver()
-	{
+
+	public void gameOver() {
 
 	}
 }

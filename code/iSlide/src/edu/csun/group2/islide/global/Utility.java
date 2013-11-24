@@ -6,10 +6,5 @@ import com.badlogic.gdx.graphics.TextureData;
 
 public class Utility {
 	
-	public static Texture convertByteArrayToTexture(byte[] bytes)
-	{	
-		Pixmap map = new Pixmap(bytes, 0, bytes.length);
-		Texture T = new Texture(map);
-		return T;
-	}
+	
 }

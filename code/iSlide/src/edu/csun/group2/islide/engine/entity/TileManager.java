@@ -2,59 +2,111 @@ package edu.csun.group2.islide.engine.entity;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Rectangle;
 
 import edu.csun.group2.islide.engine.Board;
+import edu.csun.group2.islide.global.GameInfo;
 import edu.csun.group2.islide.interfaces.IRenderable;
 
 public class TileManager implements IRenderable {
 
 	Texture tileTexture;
 	Board board;
-
 	ArrayList<SlideTile> tiles;
 	private Texture emptyTexture;
-
+	int tWidth;
+	int xOffSet, yOffSet;
+	ShapeRenderer shapes;
+	int size;
+	boolean justTouched;
 	public TileManager(int size, Texture texture) {
-		emptyTexture = new Texture("data/gray_bg.png");// later abstract and
-														// make invisible
-		board = new Board(3);
-		tiles = new ArrayList<SlideTile>();
-		int tWidth = board.width;
+		init(0, 0, size, texture);
+	}
 
+	public TileManager(int x, int y, int size, Texture texture) {
+		init(x, y, size, texture);
+	}
+
+	private void init(int xOffSet, int yOffSet, int size, Texture texture) {
+		this.size = size;
+		this.xOffSet = xOffSet;
+		this.yOffSet = yOffSet;
+		tileTexture = texture;
+		board = new Board(size);
+		tiles = new ArrayList<SlideTile>();
+		tWidth = texture.getWidth() / size;
+		
 		int len = board.ary.size();
 		for (int i = 0; i < len; i++) {
-			int id = (int) board.ary.get(i);
+			int id = (int) board.ary.get(i);// shouldn't this just be id = i ?????????
+			Sprite passSprite;
 			if (id != 0) {
-
-				tiles.add(new SlideTile((i % size) * tWidth, (i / size)
-						* tWidth, tWidth, tWidth, id, new Sprite(tileTexture,
-						(id % size) * tWidth, (id / size) * tWidth, tWidth,
-						tWidth)));
+				passSprite = new Sprite(texture, (id % size) * tWidth,
+						(id / size) * tWidth, tWidth, tWidth);
+				passSprite.flip(false, true);
+				
+				tiles.add(new SlideTile(((i % size) * tWidth) + xOffSet,
+						((i / size) * tWidth) + yOffSet, tWidth, tWidth, id,
+						passSprite));
 			} else {
-				tiles.add(new SlideTile((i % size) * tWidth, (i / size)
-						* tWidth, tWidth, tWidth, id, new Sprite(emptyTexture,
-						tWidth, tWidth)));
+				passSprite = new Sprite(texture, 0, 0);
+				passSprite.flip(false, true);
+				tiles.add(new SlideTile(((i % size) * tWidth) + xOffSet,
+						((i / size) * tWidth) + yOffSet, tWidth, tWidth, id,
+						passSprite));
 			}
-
 		}
-
 	}
 
 	@Override
 	public void update(long elapsedMillis) {
-		for (SlideTile tile : tiles) {
-			tile.update(elapsedMillis);
+		
+		for(int i = 0; i < tiles.size(); i++)
+		{
+			Rectangle cRect = new Rectangle(tiles.get(i).x,tiles.get(i).y,tWidth,tWidth);
+			if(GameInfo.getInstance().touching && GameInfo.getInstance().touchRectangle != null && GameInfo.getInstance().touchRectangle.overlaps(cRect)&& !justTouched)
+			{
+				board.move(tiles.get(i).tile_id);
+				justTouched = true;
+			}
+		}
+		if(!GameInfo.getInstance().touching)
+		{
+			justTouched = false;
+		}
+		int len = board.board_size;
+		for (int i = 0; i < len; i++) {
+			int id = (int)board.ary.get(i);
+			for (int j = 0; j < tiles.size(); j++) {
+				if(tiles.get(j).tile_id != id)
+					continue;
+				else{
+					tiles.get(j).x = ((i % size) * tWidth) + xOffSet;
+					tiles.get(j).y = ((i / size) * tWidth) + yOffSet;
+				}
+				tiles.get(j).update(elapsedMillis);
+			}
 		}
 
 	}
 
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
+
 		for (SlideTile tile : tiles) {
 			tile.draw(spriteBatch);
 		}
+	}
+
+	public void GlDraw() {
+		
 	}
 }
