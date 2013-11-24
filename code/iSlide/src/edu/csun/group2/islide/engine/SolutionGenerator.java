@@ -1,11 +1,27 @@
+package edu.csun.group2.islide.engine;
 
-class SolutionGenerator
+import java.util.*;
+
+
+public class SolutionGenerator
 {
-	private int seed;
-	private Stack<Move> move_list;
+	class Pair
+	{
+		public Board board;
+		public int index;
+		
+		Pair(int _index, Board _board)
+		{
+			board = new Board(_board);
+			index = _index;
+		}
+		
+	}	
+	 
 	private Random rand;
-	private HashMap<Move> hash;
-	private ArrayList<Integer> rand_list;
+	private Board solution;
+	private String db;
+	private HashMap<Integer, Board> hash;
 
 	/**
 	 * [Constructor responsible for generating a number of pre computed solutions to the n-puzzle]
@@ -17,27 +33,121 @@ class SolutionGenerator
 	public SolutionGenerator(int num_solutions, int size,  String dbname)
 	{
 		rand = new Random();
-		seed = rand.randInt(num_solutions);
-		rand = new Random(seed);
+		//seed = rand.nextInt(num_solutions);
+		int seed = 0x58FA87;
+		
+		rand.setSeed(seed);
+		solution = new Board(size);
+		db = dbname;
+		
+		
+		for(byte i = 0; i < solution.ary.size(); ++i)
+			solution.ary.set(i, i);
 
 		// dB = new SQLdB 	// make a SQLite DB
 	 
 		int id, solution_length;
 		for(int i = 0; i < num_solutions; ++i)
-		{
-			
-			do{
-				id = rand.randInt();
-			}while(null != rand_list.find(id));
-			rand_list.insert(id);
-
-			solution_length = rand.randInt(50-18) + 18;
-			GenerateSolution(size, id, solution_length);
+		{			
+			solution_length = rand.nextInt(50-18) + 18;
+			GenerateSolution(size, i, solution_length);
 		}
 
 	}
 
-	public GenerateSolution(int size, int solution_id, int solution_length)
+	public void GenerateSolution(int size, int solution_id, int solution_length)
+	{
+		rand.setSeed(solution_id);
+		hash = new HashMap<Integer, Board>(solution_length);
+		Stack<Pair> move_list = new Stack<Pair>();
+		Board board = new Board(solution);
+		
+		ArrayList<Pair> temp;
+		Pair p;
+		// until the # of moves is full
+		while(move_list.size() < solution_length)
+		{
+							
+			temp = adjacent_moves(board);
+			// if there were no valid moves, go back and look for more valid moves (backtrack)
+			while(temp.isEmpty())
+			{
+				move_list.pop();					
+				temp = adjacent_moves(move_list.peek().board);
+			}
+			
+			p = temp.get(rand.nextInt(temp.size()));// pick a random move
+			board = p.board;			
+			
+			hash.put(board.hashCode(), board);// add the new move to the hash
+			move_list.push(p);
+			
+		}
+		
+		writeToDB(db, solution_id, move_list);
+		
+	}
+	
+	/**
+	 * 
+	 * @param board
+	 * @return The list of moves not yet seen;
+	 */
+	ArrayList<Pair> adjacent_moves(Board board)
+	{
+		
+		ArrayList<Pair> ret = new ArrayList<Pair>(4); 
+		int empty = board.empty;		
+		int index;
+		{
+			Board temp = new Board(board);
+			index = empty +1;
+			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
+				ret.add(new Pair(index, temp));			
+		}
+		
+		{
+			Board temp = new Board(board);
+			index = empty - 1;
+			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
+				ret.add(new Pair(index, temp));
+		}
+		
+		{
+			Board temp = new Board(board);
+			index = empty + temp.width;
+			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
+				ret.add(new Pair(index, temp));
+		}
+		
+		{
+			Board temp = new Board(board);
+			index = empty - temp.width;
+			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
+				ret.add(new Pair(index, temp));
+		}
+		
+		return ret;
+		
+	}
+	
+	/**
+	 * Writes the solution path for the n-puzzle to the database
+	 * @param db the db to write to
+	 * @param seed_id the seed used to start the number generator
+	 * @param move_list the list of moves, with the index of the move that got them there. 
+	 */
+	public void writeToDB(String db, int seed_id, Stack<Pair> move_list)
+	{
+		// write the data to a record in the db
+		
+		//Write the id
+		
+		//write the index_list
+		
+		//write the move_list
+		
+	}
 
 };
 
