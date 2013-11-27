@@ -24,7 +24,7 @@ public class Board {
 			ary.add(i);
 
 		java.util.Collections.shuffle(ary);
-		empty = (byte) ary.indexOf(0);
+		empty = (byte) getIndex(0);
 
 		
 		while(!solvable())
@@ -33,7 +33,7 @@ public class Board {
 			int next = (row +1) * width;
 			int safe_index = next%board_size;			
 			Collections.swap(ary, (safe_index ), (safe_index +1) );
-			empty = (byte) ary.indexOf(0);
+			empty = (byte) getIndex(0);
 		}
 			
 	}
@@ -150,6 +150,18 @@ public class Board {
 		
 		return false;		
 	}
+	
+	int getIndex(int num)
+	{
+		for(int i = 0; i < board_size; ++i)
+		{
+			if( ary.get(i) == num)
+				return i;
+		}
+		
+		return -1;
+	}
+	
 	
 	void print(){
 		

@@ -7,6 +7,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-android.jar" sourcepath="libs/gdx-backend-android-sources.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="C:/Users/tyler/Github/iSlide/iSlide/code/iSlide/libs/gdx.jar"/>
+	<classpathentry kind="lib" path="/home/atlas/workspace/iSlide/code/iSlide/libs/gdx.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

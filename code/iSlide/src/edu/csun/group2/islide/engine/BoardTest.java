@@ -24,7 +24,7 @@ public class BoardTest {
 
 	@Test
 	public void testBoardShort() {
-		assertTrue("Failed to properly set up the test board", test_board.ary.indexOf(0) == test_board.empty);
+		assertTrue("Failed to properly set up the test board", test_board.getIndex(0) == test_board.empty);
 		assertTrue("Failed to crete a solvable board!", test_board.solvable());
 	}
 
@@ -44,7 +44,7 @@ public class BoardTest {
 		//System.out.println("solvability issues <----------");
 		//System.out.println(temp.solvable());
 		//temp.print();
-		assertTrue("Failed to properly set up the test board", temp.ary.indexOf(0) == temp.empty);
+		assertTrue("Failed to properly set up the test board", temp.getIndex(0) == temp.empty);
 		assertFalse("Failed to properly disallow a move -- null_move", temp.move(temp.empty));
 		assertFalse("Failed to properly disallow a move -- invalid edge", temp.move(temp.empty-1));
 		assertFalse("Failed to properly disallow a move -- invalid not adjacent", temp.move(temp.empty + 9));
