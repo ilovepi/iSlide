@@ -3,8 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="libs/gdx.jar" sourcepath="libs/gdx-sources.jar"/>
-	<classpathentry kind="lib" path="/home/atlas/workspace/iSlide/code/iSlide/libs/junit-4.10.jar"/>
-	<classpathentry kind="lib" path="/home/atlas/Eclipse/adt-bundle-linux-x86_64-20130917/sdk/platforms/android-15/android.jar">
+	<classpathentry kind="lib" path="C:/Users/tyler/Github/iSlide/iSlide/code/iSlide/libs/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="C:/Users/tyler/Documents/programming libraries/adt-bundle-windows-x86-20130729/sdk/platforms/android-18/android.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/C:/Users/tyler/Documents/programming libraries/adt-bundle-windows-x86-20130729/sdk/docs/reference"/>
 		</attributes>
