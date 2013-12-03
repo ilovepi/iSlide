@@ -14,18 +14,17 @@ public class Board {
 	 * 	Creates an NxN board to play a sliding puzzle game with
 	 * @param size the width and height of the board, dimension N in an NxN board
 	 */
-	public Board(int size){
-
+	public Board(int size)
+	{
 		width = (byte) size;
 		board_size = (byte) (width*width);
 		ary = new ArrayList<Byte>(board_size);
 		
 		for(byte i =0; i < board_size; ++i )
 			ary.add(i);
-
+/*
 		java.util.Collections.shuffle(ary);
 		empty = (byte) getIndex(0);
-
 		
 		while(!solvable())
 		{
@@ -34,8 +33,7 @@ public class Board {
 			int safe_index = next%board_size;			
 			Collections.swap(ary, (safe_index ), (safe_index +1) );
 			empty = (byte) getIndex(0);
-		}
-			
+		}	*/
 	}
 	
 	//! copy constructor

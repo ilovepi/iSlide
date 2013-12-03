@@ -44,13 +44,12 @@ public class iSlide extends Game {
 	private void init(Context pContext, int nPuzzle, byte[] img) {
 
 	}
-
 	@Override
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera(w, h);
-		camera.setToOrtho(false, w, h);
+		camera.setToOrtho(true, w, h);
 		camera.update();
 		// camera.position.set(w / 2, h / 2, 1);
 		glViewport = new Rectangle(0, 0, w, h);
@@ -65,6 +64,7 @@ public class iSlide extends Game {
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 		font.setScale(2.0f);
+		font.setScale(2, -2);
 		// testSprite = new Sprite(new Texture("data/islidelogo.png"));
 		gameManager = new GameManager(3, new Texture("data/testimage.png"));
 
