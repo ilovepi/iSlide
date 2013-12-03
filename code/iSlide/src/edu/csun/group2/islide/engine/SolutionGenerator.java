@@ -60,6 +60,8 @@ public class SolutionGenerator
 		rand.setSeed(solution_id);
 		hash = new HashMap<Integer, Board>(solution_length);
 		Stack<Pair> move_list = new Stack<Pair>();
+		// make a copy of the solution board 
+		// making a new board an initializing it is expensive, this copy is much cheaper
 		Board board = new Board(solution);
 		
 		ArrayList<Pair> temp;
