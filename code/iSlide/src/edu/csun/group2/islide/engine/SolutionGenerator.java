@@ -5,12 +5,12 @@ import java.util.*;
 
 public class SolutionGenerator
 {
-	class Pair
+	class Pair2
 	{
 		public Board board;
 		public int index;
 		
-		Pair(int _index, Board _board)
+		Pair2(int _index, Board _board)
 		{
 			board = new Board(_board);
 			index = _index;
@@ -59,13 +59,13 @@ public class SolutionGenerator
 	{
 		rand.setSeed(solution_id);
 		hash = new HashMap<Integer, Board>(solution_length);
-		Stack<Pair> move_list = new Stack<Pair>();
+		Stack<Pair2> move_list = new Stack<Pair2>();
 		// make a copy of the solution board 
 		// making a new board an initializing it is expensive, this copy is much cheaper
 		Board board = new Board(solution);
 		
-		ArrayList<Pair> temp;
-		Pair p;
+		ArrayList<Pair2> temp;
+		Pair2 p;
 		// until the # of moves is full
 		while(move_list.size() < solution_length)
 		{
@@ -95,38 +95,38 @@ public class SolutionGenerator
 	 * @param board
 	 * @return The list of moves not yet seen;
 	 */
-	ArrayList<Pair> adjacent_moves(Board board)
+	ArrayList<Pair2> adjacent_moves(Board board)
 	{
 		
-		ArrayList<Pair> ret = new ArrayList<Pair>(4); 
+		ArrayList<Pair2> ret = new ArrayList<Pair2>(4); 
 		int empty = board.empty;		
 		int index;
 		{
 			Board temp = new Board(board);
 			index = empty +1;
 			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
-				ret.add(new Pair(index, temp));			
+				ret.add(new Pair2(index, temp));			
 		}
 		
 		{
 			Board temp = new Board(board);
 			index = empty - 1;
 			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
-				ret.add(new Pair(index, temp));
+				ret.add(new Pair2(index, temp));
 		}
 		
 		{
 			Board temp = new Board(board);
 			index = empty + temp.width;
 			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
-				ret.add(new Pair(index, temp));
+				ret.add(new Pair2(index, temp));
 		}
 		
 		{
 			Board temp = new Board(board);
 			index = empty - temp.width;
 			if(temp.move(index) && !hash.containsKey(temp.hashCode()))
-				ret.add(new Pair(index, temp));
+				ret.add(new Pair2(index, temp));
 		}
 		
 		return ret;
@@ -139,7 +139,7 @@ public class SolutionGenerator
 	 * @param seed_id the seed used to start the number generator
 	 * @param move_list the list of moves, with the index of the move that got them there. 
 	 */
-	public void writeToDB(String db, int seed_id, Stack<Pair> move_list)
+	public void writeToDB(String db, int seed_id, Stack<Pair2> move_list)
 	{
 		// write the data to a record in the db
 		
