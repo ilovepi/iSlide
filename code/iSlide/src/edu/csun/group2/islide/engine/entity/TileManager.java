@@ -15,13 +15,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import edu.csun.group2.islide.engine.Board;
+import edu.csun.group2.islide.engine.GameBoard;
 import edu.csun.group2.islide.global.GameInfo;
 import edu.csun.group2.islide.interfaces.IRenderable;
 
 public class TileManager implements IRenderable {
 
 	Texture tileTexture;
-	Board board;
+	GameBoard board;
 	//ArrayList<SlideTile> tiles;
 	SlideTile[] tiles;
 	private Texture emptyTexture;
@@ -66,7 +67,7 @@ public class TileManager implements IRenderable {
 		this.xOffSet = xOffSet;
 		this.yOffSet = yOffSet;
 		tileTexture = texture;
-		board = new Board(size);
+		board = new GameBoard(size);
 		//tiles = new ArrayList<SlideTile>();
 		tiles = new SlideTile[size*size];
 		tWidth = texture.getWidth() / size;
@@ -75,7 +76,7 @@ public class TileManager implements IRenderable {
 		font.setScale(2, -2);
 		tileTouchedID = "";
 		for (int i = 0; i < size*size; i++) {
-			int id = (int) board.ary.get(i);// shouldn't this just be id = i
+			int id = (int) board.ary.get(i);
 			Sprite passSprite;
 			if (id != 0) {
 				passSprite = new Sprite(texture, (id % size) * tWidth,

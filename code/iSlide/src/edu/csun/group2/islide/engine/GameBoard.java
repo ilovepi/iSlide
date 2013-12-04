@@ -10,23 +10,17 @@ import java.util.Random;
 
 public class GameBoard extends Board {
 	
-	//public ArrayList<Pair> solution;
-	public Deque<Pair> solution_stack;
-	//public Deque<Pair> extra;
-	private HashMap<Integer, Board> hash;
-	Board current_move;
-	//Board solution_ptr;
-	
+	public ArrayDeque<Pair> solution_stack;	
+	private HashMap<Integer, Board> hash;	
 
 	public GameBoard(int size) {
-		super(size);
-		
-		
+		super(size);		
 		Random rand = new Random();
 		rand.setSeed(rand.nextInt(1000));// need to seed the number generator to make it deterministic.
 		int solution_length = rand.nextInt(1000);
 		hash = new HashMap<Integer, Board>(solution_length);
-		solution_stack = new ArrayDeque<Pair>();
+		solution_stack = new ArrayDeque<Pair>(solution_length);
+		
 		
 		// make a copy of the solution board 
 		// making a new board an initializing it is expensive, this copy is much cheaper
@@ -51,12 +45,23 @@ public class GameBoard extends Board {
 			
 			hash.put(board.hashCode(), board);// add the new move to the hash
 			solution_stack.push(p);			
-		}		
+		}
+		
+		
+		// our actual board is in the solution state, 
+		// so replay the move list we just made in proper order
+		ArrayDeque<Pair> s = solution_stack.clone();
+		solution_stack.clear();
+		while(!s.isEmpty())		
+			this.move(s.pollLast().index);
+		
+		
 	}
 
 	public GameBoard(GameBoard other) {
 		super(other);
-		// TODO Auto-generated constructor stub
+		solution_stack = other.solution_stack.clone();
+		hash = (HashMap<Integer, Board>) other.hash.clone();		
 	}
 	
 	
@@ -105,11 +110,11 @@ public class GameBoard extends Board {
 
 	public boolean move(int index)
 	{
-		
+		int e = empty;
 		if(super.move(index))// if the move was successful
 		{
 			Board b = new Board(this);
-			Pair p = new Pair(b.empty, b);// make a new pair to put in the stack
+			Pair p = new Pair(e, b);// make a new pair to put in the stack
 			// if the move is already in the solution, get rid of don't add it, 
 			// and get rid of extra moves
 			if(solution_stack.contains(p))
@@ -124,6 +129,10 @@ public class GameBoard extends Board {
 		return false;		
 	}
 	
+	/**
+	 * 
+	 * @return the index of the next move in the solution
+	 */
 	public int hint()
 	{
 		return solution_stack.peek().index;
