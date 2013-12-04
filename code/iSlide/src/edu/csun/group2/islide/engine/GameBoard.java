@@ -11,10 +11,12 @@ import java.util.Random;
 public class GameBoard extends Board {
 	
 	public ArrayDeque<Pair> solution_stack;	
-	private HashMap<Integer, Board> hash;	
+	private HashMap<Integer, Board> hash;
+	private int solution_code;
 
 	public GameBoard(int size) {
-		super(size);		
+		super(size);
+		solution_code = this.ary.hashCode();
 		Random rand = new Random();
 		rand.setSeed(rand.nextInt(1000));// need to seed the number generator to make it deterministic.
 		int solution_length = rand.nextInt(1000);
@@ -144,6 +146,12 @@ public class GameBoard extends Board {
 		move(p.index);
 		return p.index;
 	}
+	
+	public boolean solved()
+	{
+		return this.ary.hashCode() == solution_code;
+	}
+	
 	
 	
 }
