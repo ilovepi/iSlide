@@ -48,9 +48,10 @@ public class iSlide extends Game {
 	public void create() {
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		camera = new OrthographicCamera(w, h);
-		camera.setToOrtho(true, w, h);
+		camera = new OrthographicCamera(480, 800);
+		camera.setToOrtho(true, 480, 800);
 		camera.update();
+		
 		// camera.position.set(w / 2, h / 2, 1);
 		glViewport = new Rectangle(0, 0, w, h);
 		batch = new SpriteBatch();
@@ -70,6 +71,7 @@ public class iSlide extends Game {
 
 		batch.setProjectionMatrix(camera.combined);
 		startTime = System.currentTimeMillis();
+		GameInfo.getInstance().gameCamera = camera;
 
 	}
 
@@ -87,14 +89,7 @@ public class iSlide extends Game {
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 			draw(batch);
-		}if(GameInfo.getInstance().touchRectangle != null){
-			r2 = GameInfo.getInstance().touchRectangle; 
-		renderer.setColor(Color.BLACK);
-		renderer.begin(ShapeType.Filled);
-		renderer.rect(r2.x, r2.y, r2.width+5, r2.height + 5);
-		renderer.end();
 		}
-
 		Gdx.gl.glViewport((int) glViewport.x, (int) glViewport.y,
 				(int) glViewport.width, (int) glViewport.height);
 

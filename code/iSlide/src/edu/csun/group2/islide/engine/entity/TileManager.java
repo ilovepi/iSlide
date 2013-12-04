@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 import edu.csun.group2.islide.engine.Board;
 import edu.csun.group2.islide.global.GameInfo;
@@ -31,6 +32,7 @@ public class TileManager implements IRenderable {
 	boolean justTouched;
 	BitmapFont font;
 	String tileTouchedID;
+	Vector3 unprojectionVector;
 	/**
 	 * Instantiate New Tile Manager
 	 * 
@@ -99,15 +101,20 @@ public class TileManager implements IRenderable {
 	@Override
 	public void update(long elapsedMillis) {
 		boolean moved = false;
+	
 		for (int i = 0; i < (size * size); i++) {
-			if (tiles[board.ary.get(i)].tile_id == 0)
+			if (tiles[board.ary.get(i)].tile_id == 0 || !GameInfo.getInstance().touching)
 				continue;
-
+			unprojectionVector = new Vector3(GameInfo.getInstance().touchRectangle.x, GameInfo.getInstance().touchRectangle.y, 0);
+			GameInfo.getInstance().gameCamera.unproject(unprojectionVector);
+			
+			Rectangle unprojectedRect = new Rectangle(unprojectionVector.x, unprojectionVector.y, 1,1);
 			Rectangle cRect = new Rectangle(tiles[board.ary.get(i)].x, tiles[board.ary.get(i)].y,
 					tWidth, tWidth);
+			
 			if (GameInfo.getInstance().touching
 					&& GameInfo.getInstance().touchRectangle != null
-					&& GameInfo.getInstance().touchRectangle.overlaps(cRect)
+					&& unprojectedRect.overlaps(cRect)
 					&& !justTouched) {
 				moved = board.move(i);
 				tileTouchedID = tiles[board.ary.get(i)].tile_id + " index at: " + i;
@@ -141,9 +148,9 @@ public class TileManager implements IRenderable {
 	public void draw(SpriteBatch spriteBatch) {
 		for (SlideTile tile : tiles) {
 			tile.draw(spriteBatch);
-			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
-			font.draw(spriteBatch, "Tile ID Touched = " + tileTouchedID, 300, 600);
-			font.draw(spriteBatch, "Tile 3 x: " + tiles[3].x + " y: " + tiles[3].y, 300, 700);
+//			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
+//			font.draw(spriteBatch, "Tile ID Touched = " + tileTouchedID, 300, 600);
+//			font.draw(spriteBatch, "Tile 3 x: " + tiles[3].x + " y: " + tiles[3].y, 300, 700);
 		}
 
 	}
