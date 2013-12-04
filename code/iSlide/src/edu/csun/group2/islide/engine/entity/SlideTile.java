@@ -10,6 +10,7 @@ public class SlideTile implements IRenderable{
 
 	public Sprite sprite;
 	public int x, y, width, height, tile_id;
+
 	public SlideTile(int x, int y, int width, int height, int id, Sprite sprite)
 	{
 		this.x = x;

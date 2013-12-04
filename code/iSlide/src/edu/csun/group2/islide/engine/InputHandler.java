@@ -1,5 +1,6 @@
 package edu.csun.group2.islide.engine;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,6 +34,10 @@ public class InputHandler implements InputProcessor {
 			GameInfo.getInstance().touchRectangle = new Rectangle(screenX,
 					screenY, 1, 1);
 		}
+		else{
+			GameInfo.getInstance().touchRectangle.x = screenX;
+			GameInfo.getInstance().touchRectangle.y = screenY;
+		}
 		return false;
 	}
 
@@ -44,14 +49,13 @@ public class InputHandler implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if (GameInfo.getInstance().touching
-				&& GameInfo.getInstance().touchRectangle != null) {
+		GameInfo.getInstance().touching = true;
+		if (GameInfo.getInstance().touchRectangle != null) {
 			GameInfo.getInstance().touchRectangle.x = screenX;
 			GameInfo.getInstance().touchRectangle.y = screenY;
 		} else {
-			GameInfo.getInstance().touching = true;
 			GameInfo.getInstance().touchRectangle = new Rectangle(screenX,
-					screenY, 1, 1);
+					 screenY, 1, 1);
 		}
 		return false;
 	}

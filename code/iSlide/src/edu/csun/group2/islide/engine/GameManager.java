@@ -24,7 +24,7 @@ public class GameManager implements IRenderable{
 	private void init(int size, Texture imageTexture)
 	{
 		this.size = size;
-		int midpt1 = (Gdx.graphics.getWidth() - imageTexture.getWidth())/2;
+		int midpt1 =  0;//(Gdx.graphics.getWidth() - imageTexture.getWidth())/2;
 		int midpt2 = 0;
 		tileManager = new TileManager(midpt1, midpt2,size, imageTexture);
 	}
@@ -43,8 +43,6 @@ public class GameManager implements IRenderable{
 
 	@Override
 	public void GlDraw() {
-		// TODO Auto-generated method stub
-		tileManager.GlDraw();
 		
 	}
 }

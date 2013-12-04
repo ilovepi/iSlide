@@ -14,8 +14,8 @@ public class Board {
 	 * 	Creates an NxN board to play a sliding puzzle game with
 	 * @param size the width and height of the board, dimension N in an NxN board
 	 */
-	public Board(int size){
-
+	public Board(int size)
+	{
 		width = (byte) size;
 		board_size = (byte) (width*width);
 		ary = new ArrayList<Byte>(board_size);
