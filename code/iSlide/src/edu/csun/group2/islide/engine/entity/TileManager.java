@@ -21,7 +21,8 @@ public class TileManager implements IRenderable {
 
 	Texture tileTexture;
 	Board board;
-	ArrayList<SlideTile> tiles;
+	//ArrayList<SlideTile> tiles;
+	SlideTile[] tiles;
 	private Texture emptyTexture;
 	int tWidth;
 	int xOffSet, yOffSet;
@@ -64,7 +65,8 @@ public class TileManager implements IRenderable {
 		this.yOffSet = yOffSet;
 		tileTexture = texture;
 		board = new Board(size);
-		tiles = new ArrayList<SlideTile>();
+		//tiles = new ArrayList<SlideTile>();
+		tiles = new SlideTile[size*size];
 		tWidth = texture.getWidth() / size;
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
@@ -78,13 +80,13 @@ public class TileManager implements IRenderable {
 						(id / size) * tWidth, tWidth, tWidth);
 				passSprite.flip(false, true);
 
-				tiles.add(new SlideTile(((i % size) * tWidth) + xOffSet,
+				tiles[id] = (new SlideTile(((i % size) * tWidth) + xOffSet,
 						((i / size) * tWidth) + yOffSet, tWidth, tWidth, id,
 						passSprite));
 			} else {
 				passSprite = new Sprite(texture, 0, 0);
 				passSprite.flip(false, true);
-				tiles.add(new SlideTile(((i % size) * tWidth) + xOffSet,
+				tiles[id] = (new SlideTile(((i % size) * tWidth) + xOffSet,
 						((i / size) * tWidth) + yOffSet, tWidth, tWidth, id,
 						passSprite));
 			}
@@ -98,36 +100,36 @@ public class TileManager implements IRenderable {
 	public void update(long elapsedMillis) {
 		boolean moved = false;
 		for (int i = 0; i < (size * size); i++) {
-			if (tiles.get(board.ary.get(i)).tile_id == 0)
+			if (tiles[board.ary.get(i)].tile_id == 0)
 				continue;
 
-			Rectangle cRect = new Rectangle(tiles.get(board.ary.get(i)).x, tiles.get(board.ary.get(i)).y,
+			Rectangle cRect = new Rectangle(tiles[board.ary.get(i)].x, tiles[board.ary.get(i)].y,
 					tWidth, tWidth);
 			if (GameInfo.getInstance().touching
 					&& GameInfo.getInstance().touchRectangle != null
 					&& GameInfo.getInstance().touchRectangle.overlaps(cRect)
 					&& !justTouched) {
 				moved = board.move(i);
-				tileTouchedID = tiles.get(i).tile_id + " index at: " + i;
+				tileTouchedID = tiles[board.ary.get(i)].tile_id + " index at: " + i;
 				justTouched = true;
 			}
 		}
 		if (!GameInfo.getInstance().touching) {
 			justTouched = false;
 		}
-		if (moved) {
+		if (true) {
 			for (int i = 0; i < (size * size); i++) {
 				
 				int id = (int) board.ary.get(i);
-				for (int j = 0; j < tiles.size(); j++) {
-					if (tiles.get(j).tile_id != id){
+				for (int j = 0; j < tiles.length; j++) {
+					if (tiles[j].tile_id != id){
 						
 					}
 					else {
-						tiles.get(j).x = ((i % size) * tWidth) + xOffSet ;
-						tiles.get(j).y = (((i / size)) * tWidth) + yOffSet;
+						tiles[j].x = ((i % size) * tWidth) + xOffSet ;
+						tiles[j].y = (((i / size)) * tWidth) + yOffSet;
 					}
-					tiles.get(j).update(elapsedMillis);
+					tiles[j].update(elapsedMillis);
 				}
 
 			}
@@ -141,7 +143,7 @@ public class TileManager implements IRenderable {
 			tile.draw(spriteBatch);
 			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
 			font.draw(spriteBatch, "Tile ID Touched = " + tileTouchedID, 300, 600);
-			font.draw(spriteBatch, "Tile 3 x: " + tiles.get(3).x + " y: " + tiles.get(3).y, 300, 700);
+			font.draw(spriteBatch, "Tile 3 x: " + tiles[3].x + " y: " + tiles[3].y, 300, 700);
 		}
 
 	}

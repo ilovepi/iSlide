@@ -22,7 +22,7 @@ public class Board {
 		
 		for(byte i =0; i < board_size; ++i )
 			ary.add(i);
-/*
+
 		java.util.Collections.shuffle(ary);
 		empty = (byte) getIndex(0);
 		
@@ -33,7 +33,7 @@ public class Board {
 			int safe_index = next%board_size;			
 			Collections.swap(ary, (safe_index ), (safe_index +1) );
 			empty = (byte) getIndex(0);
-		}	*/
+		}	
 	}
 	
 	//! copy constructor
