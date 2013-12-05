@@ -22,8 +22,7 @@ import edu.csun.group2.islide.interfaces.IRenderable;
 public class TileManager implements IRenderable {
 
 	Texture tileTexture;
-	GameBoard board;
-	//ArrayList<SlideTile> tiles;
+	public GameBoard board;
 	SlideTile[] tiles;
 	private Texture emptyTexture;
 	int tWidth;
@@ -34,6 +33,11 @@ public class TileManager implements IRenderable {
 	BitmapFont font;
 	String tileTouchedID;
 	Vector3 unprojectionVector;
+	Rectangle solveButton;
+	Rectangle hintButton;
+	Sprite solveTexture;
+	Sprite hintTexture;
+	
 	/**
 	 * Instantiate New Tile Manager
 	 * 
@@ -68,13 +72,29 @@ public class TileManager implements IRenderable {
 		this.yOffSet = yOffSet;
 		tileTexture = texture;
 		board = new GameBoard(size);
-		//tiles = new ArrayList<SlideTile>();
+		
 		tiles = new SlideTile[size*size];
 		tWidth = texture.getWidth() / size;
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 		font.setScale(2, -2);
-		tileTouchedID = "";
+		
+
+		
+		solveButton = new Rectangle(0,texture.getHeight() + 230, 400,100);
+		hintButton = new Rectangle(0,texture.getHeight() +100,400,100);
+		
+		solveTexture = new Sprite(new Texture("data/solvebutton.png"));
+		hintTexture = new Sprite( new Texture("data/hintbutton.png"));
+		solveTexture.flip(false, true);
+		hintTexture.flip(false, true);
+		
+		solveTexture.setX(solveButton.x);
+		solveTexture.setY(solveButton.y);
+
+		hintTexture.setX(hintButton.x);
+		hintTexture.setY(hintButton.y);
+		
 		for (int i = 0; i < size*size; i++) {
 			int id = (int) board.ary.get(i);
 			Sprite passSprite;
@@ -118,9 +138,24 @@ public class TileManager implements IRenderable {
 					&& unprojectedRect.overlaps(cRect)
 					&& !justTouched) {
 				moved = board.move(i);
-				tileTouchedID = tiles[board.ary.get(i)].tile_id + " index at: " + i;
 				justTouched = true;
 			}
+			else if(GameInfo.getInstance().touching
+					&& GameInfo.getInstance().touchRectangle != null
+					&& unprojectedRect.overlaps(this.hintButton)
+					&& !justTouched)
+			{
+				board.solve();
+				justTouched = true;
+			}
+			else if(GameInfo.getInstance().touching
+					&& GameInfo.getInstance().touchRectangle != null
+					&& unprojectedRect.overlaps(this.solveButton)
+					&& !justTouched)
+			{
+				justTouched = true;
+			}
+			
 		}
 		if (!GameInfo.getInstance().touching) {
 			justTouched = false;
@@ -149,11 +184,10 @@ public class TileManager implements IRenderable {
 	public void draw(SpriteBatch spriteBatch) {
 		for (SlideTile tile : tiles) {
 			tile.draw(spriteBatch);
-//			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
-//			font.draw(spriteBatch, "Tile ID Touched = " + tileTouchedID, 300, 600);
-//			font.draw(spriteBatch, "Tile 3 x: " + tiles[3].x + " y: " + tiles[3].y, 300, 700);
+			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
 		}
-
+		solveTexture.draw(spriteBatch);
+		hintTexture.draw(spriteBatch);
 	}
 
 	public void GlDraw() {

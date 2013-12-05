@@ -28,7 +28,7 @@ public class iSlide extends Game {
 	private Rectangle glViewport;
 	private ShapeRenderer renderer;
 	private BitmapFont font;
-	Rectangle r2 ;
+	Rectangle r2;
 	public iSlide() {
 		init(null, 3, null);
 	}
@@ -99,32 +99,22 @@ public class iSlide extends Game {
 		if (gameManager != null) {
 			this.gameManager.update(elapsedMillis);
 		}
-		if (GameInfo.getInstance().touching
-				&& GameInfo.getInstance().touchRectangle != null) {
 		
-		}
 	}
 
 	private void draw(SpriteBatch spriteBatch) {
 		if (spriteBatch != null) {
 			spriteBatch.begin();
 			{
-				
 				if (gameManager != null) {
 					this.gameManager.draw(spriteBatch);
 				}
-				if(r2 != null)
-				{
-					
-					font.draw(batch, "Touching At - X: " + r2.x + " Y: " + r2.y, 50, 900);
-				}
-				font.draw(spriteBatch, "isTouching? " + GameInfo.getInstance().touching, 50, 970);
 			}
 			spriteBatch.end();
-
-			
 		}
+		gameManager.GlDraw();
 	}
+	
 
 	@Override
 	public void resize(int width, int height) {

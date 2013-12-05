@@ -15,4 +15,10 @@ public class MainActivity extends AndroidApplication {
         
         initialize(new iSlide(), cfg);
     }
+    @Override
+    public void onStop()
+    {
+    	super.onStop();
+    	//start new Activity
+    }
 }

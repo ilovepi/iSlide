@@ -38,12 +38,14 @@ public class InputHandler implements InputProcessor {
 			GameInfo.getInstance().touchRectangle.x = screenX;
 			GameInfo.getInstance().touchRectangle.y = screenY;
 		}
+		GameInfo.getInstance().justTouched = true;
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		GameInfo.getInstance().touching = false;
+		GameInfo.getInstance().justTouched = false;
 		return false;
 	}
 
@@ -57,6 +59,7 @@ public class InputHandler implements InputProcessor {
 			GameInfo.getInstance().touchRectangle = new Rectangle(screenX,
 					 screenY, 1, 1);
 		}
+		GameInfo.getInstance().justTouched = true;
 		return false;
 	}
 

@@ -9,6 +9,7 @@ public class GameInfo {
 	public byte[] imageData;
 	public Texture gameTexture;
 	public boolean touching;
+	public boolean justTouched;
 	public Rectangle touchRectangle;
 	public OrthographicCamera gameCamera;
 	private static GameInfo INSTANCE = new GameInfo();

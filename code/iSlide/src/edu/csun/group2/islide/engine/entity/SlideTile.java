@@ -33,7 +33,7 @@ public class SlideTile implements IRenderable{
 	
 	@Override
 	public void GlDraw() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }
