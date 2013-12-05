@@ -22,9 +22,10 @@ public class Board {
 		
 		for(byte i =0; i < board_size; ++i )
 			ary.add(i);
-
+/*
 		java.util.Collections.shuffle(ary);
 		empty = (byte) getIndex(0);
+
 		
 		while(!solvable())
 		{
@@ -33,7 +34,9 @@ public class Board {
 			int safe_index = next%board_size;			
 			Collections.swap(ary, (safe_index ), (safe_index +1) );
 			empty = (byte) getIndex(0);
-		}	
+		}
+		*/
+			
 	}
 	
 	//! copy constructor
@@ -45,6 +48,8 @@ public class Board {
 		//ary.addAll(other.ary);
 		ary = (ArrayList<Byte>)other.ary.clone();
 	}
+	
+	
 		
 	/** /brief Determines if the puzzle is solvable
 	 * @return boolean -true if the puzzle is solvable, otherwise false
