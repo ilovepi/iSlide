@@ -67,7 +67,7 @@ public class iSlide extends Game {
 		font.setScale(2.0f);
 		font.setScale(2, -2);
 		// testSprite = new Sprite(new Texture("data/islidelogo.png"));
-		gameManager = new GameManager(4, new Texture("data/testimage.png"));
+		gameManager = new GameManager(5, new Texture("data/testimage.png"));
 
 		batch.setProjectionMatrix(camera.combined);
 		startTime = System.currentTimeMillis();

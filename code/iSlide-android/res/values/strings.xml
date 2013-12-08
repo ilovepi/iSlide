@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <string name="title_activity_take_picture">TakePictureActivity</string>
     <string name="app_name">ISlide</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select_image">SelectImageActivity</string>
+    <string name="title_activity_play_menu">PlayMenu</string>
+    <string name="title_activity_scores_menu">HighScore</string>
+    <string name="title_activity_settings_menu">SettingsMenu</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

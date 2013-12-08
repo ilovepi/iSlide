@@ -13,7 +13,7 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = true; //test
         
-        initialize(new iSlide(), cfg);
+        initialize(new iSlide(), cfg); 
     }
     @Override
     public void onStop()

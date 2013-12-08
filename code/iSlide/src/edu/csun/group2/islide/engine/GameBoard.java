@@ -143,7 +143,7 @@ public class GameBoard extends Board {
 	public int solve()
 	{
 		Pair p = solution_stack.pop();
-		move(p.index);
+		super.move(p.index);
 		return p.index;
 	}
 	

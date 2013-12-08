@@ -1,21 +1,16 @@
 package edu.csun.group2.islide.engine.entity;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import edu.csun.group2.islide.engine.Board;
 import edu.csun.group2.islide.engine.GameBoard;
+import edu.csun.group2.islide.engine.GameManager;
 import edu.csun.group2.islide.global.GameInfo;
 import edu.csun.group2.islide.interfaces.IRenderable;
 
@@ -37,7 +32,9 @@ public class TileManager implements IRenderable {
 	Rectangle hintButton;
 	Sprite solveTexture;
 	Sprite hintTexture;
-	
+	GameManager gameManager;
+	public boolean touchEnabled;
+
 	/**
 	 * Instantiate New Tile Manager
 	 * 
@@ -46,8 +43,8 @@ public class TileManager implements IRenderable {
 	 * @param texture
 	 *            Image to use
 	 */
-	public TileManager(int size, Texture texture) {
-		init(0, 0, size, texture);
+	public TileManager(int size, Texture texture, GameManager manager) {
+		init(0, 0, size, texture, manager);
 	}
 
 	/**
@@ -62,40 +59,42 @@ public class TileManager implements IRenderable {
 	 * @param texture
 	 *            image to use for puzzle
 	 */
-	public TileManager(int x, int y, int size, Texture texture) {
-		init(x, y, size, texture);
+	public TileManager(int x, int y, int size, Texture texture,
+			GameManager manager) {
+		init(x, y, size, texture, manager);
 	}
 
-	private void init(int xOffSet, int yOffSet, int size, Texture texture) {
+	private void init(int xOffSet, int yOffSet, int size, Texture texture,
+			GameManager manager) {
+		this.gameManager = manager;
 		this.size = size;
 		this.xOffSet = xOffSet;
 		this.yOffSet = yOffSet;
 		tileTexture = texture;
 		board = new GameBoard(size);
-		
-		tiles = new SlideTile[size*size];
+
+		tiles = new SlideTile[size * size];
 		tWidth = texture.getWidth() / size;
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 		font.setScale(2, -2);
-		
+		touchEnabled = true;
 
-		
-		solveButton = new Rectangle(0,texture.getHeight() + 230, 400,100);
-		hintButton = new Rectangle(0,texture.getHeight() +100,400,100);
-		
+		solveButton = new Rectangle(0, texture.getHeight() + 230, 400, 100);
+		hintButton = new Rectangle(0, texture.getHeight() + 100, 400, 100);
+
 		solveTexture = new Sprite(new Texture("data/solvebutton.png"));
-		hintTexture = new Sprite( new Texture("data/hintbutton.png"));
+		hintTexture = new Sprite(new Texture("data/hintbutton.png"));
 		solveTexture.flip(false, true);
 		hintTexture.flip(false, true);
-		
+
 		solveTexture.setX(solveButton.x);
 		solveTexture.setY(solveButton.y);
 
 		hintTexture.setX(hintButton.x);
 		hintTexture.setY(hintButton.y);
-		
-		for (int i = 0; i < size*size; i++) {
+
+		for (int i = 0; i < size * size; i++) {
 			int id = (int) board.ary.get(i);
 			Sprite passSprite;
 			if (id != 0) {
@@ -122,54 +121,54 @@ public class TileManager implements IRenderable {
 	@Override
 	public void update(long elapsedMillis) {
 		boolean moved = false;
-	
-		for (int i = 0; i < (size * size); i++) {
-			if (tiles[board.ary.get(i)].tile_id == 0 || !GameInfo.getInstance().touching)
-				continue;
-			unprojectionVector = new Vector3(GameInfo.getInstance().touchRectangle.x, GameInfo.getInstance().touchRectangle.y, 0);
-			GameInfo.getInstance().gameCamera.unproject(unprojectionVector);
-			
-			Rectangle unprojectedRect = new Rectangle(unprojectionVector.x, unprojectionVector.y, 1,1);
-			Rectangle cRect = new Rectangle(tiles[board.ary.get(i)].x, tiles[board.ary.get(i)].y,
-					tWidth, tWidth);
-			
-			if (GameInfo.getInstance().touching
-					&& GameInfo.getInstance().touchRectangle != null
-					&& unprojectedRect.overlaps(cRect)
-					&& !justTouched) {
-				moved = board.move(i);
-				justTouched = true;
+		if (touchEnabled) {
+			for (int i = 0; i < (size * size); i++) {
+				if (tiles[board.ary.get(i)].tile_id == 0
+						|| !GameInfo.getInstance().touching)
+					continue;
+				unprojectionVector = new Vector3(
+						GameInfo.getInstance().touchRectangle.x,
+						GameInfo.getInstance().touchRectangle.y, 0);
+				GameInfo.getInstance().gameCamera.unproject(unprojectionVector);
+
+				Rectangle unprojectedRect = new Rectangle(unprojectionVector.x,
+						unprojectionVector.y, 1, 1);
+				Rectangle cRect = new Rectangle(tiles[board.ary.get(i)].x,
+						tiles[board.ary.get(i)].y, tWidth, tWidth);
+
+				if (GameInfo.getInstance().touching
+						&& GameInfo.getInstance().touchRectangle != null
+						&& unprojectedRect.overlaps(cRect) && !justTouched) {
+					moved = board.move(i);
+					justTouched = true;
+				} else if (GameInfo.getInstance().touching
+						&& GameInfo.getInstance().touchRectangle != null
+						&& unprojectedRect.overlaps(this.hintButton)
+						&& !justTouched) {
+					board.solve();
+					justTouched = true;
+				} else if (GameInfo.getInstance().touching
+						&& GameInfo.getInstance().touchRectangle != null
+						&& unprojectedRect.overlaps(this.solveButton)
+						&& !justTouched) {
+					justTouched = true;
+					this.gameManager.solving = true;
+				}
+
 			}
-			else if(GameInfo.getInstance().touching
-					&& GameInfo.getInstance().touchRectangle != null
-					&& unprojectedRect.overlaps(this.hintButton)
-					&& !justTouched)
-			{
-				board.solve();
-				justTouched = true;
+			if (!GameInfo.getInstance().touching) {
+				justTouched = false;
 			}
-			else if(GameInfo.getInstance().touching
-					&& GameInfo.getInstance().touchRectangle != null
-					&& unprojectedRect.overlaps(this.solveButton)
-					&& !justTouched)
-			{
-				justTouched = true;
-			}
-			
-		}
-		if (!GameInfo.getInstance().touching) {
-			justTouched = false;
 		}
 		if (true) {
 			for (int i = 0; i < (size * size); i++) {
-				
+
 				int id = (int) board.ary.get(i);
 				for (int j = 0; j < tiles.length; j++) {
-					if (tiles[j].tile_id != id){
-						
-					}
-					else {
-						tiles[j].x = ((i % size) * tWidth) + xOffSet ;
+					if (tiles[j].tile_id != id) {
+
+					} else {
+						tiles[j].x = ((i % size) * tWidth) + xOffSet;
 						tiles[j].y = (((i / size)) * tWidth) + yOffSet;
 					}
 					tiles[j].update(elapsedMillis);
