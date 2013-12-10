@@ -1,11 +1,8 @@
 package edu.csun.comp380.group2.islide;
 
-import edu.csun.comp380.group2.islide.engine.PlayGameActivity;
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
 import android.view.Menu;
-import android.view.View;
 
 public class StartPage extends Activity {
 
@@ -23,11 +20,4 @@ public class StartPage extends Activity {
         return true;
     }
     
-    //Strictly for Game Development Testing, Remove before production
-    public void btnDebug_OnClick(View v)
-    {
-    	Intent i = new Intent(this,PlayGameActivity.class);
-    	//i.putExtra("", "");//Can put extras here to Test
-    	startActivity(i);
-    }
 }
