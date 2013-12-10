@@ -1,0 +1,98 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gray_bg"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+    tools:context=".MainMenuActivity" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/islidelogo" />
+
+    <CheckBox
+        android:id="@+id/checkBox_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView_sound"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Music Enabled"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/TextView_sound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:text="Sound"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/textView_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBox_music"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:text="Difficulty"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkBox_music"
+        android:layout_below="@+id/textView_difficulty"
+        android:layout_marginTop="16dp" >
+
+        <RadioButton
+            android:id="@+id/radio_easy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:onClick="RadioGroup_Click"
+            android:text="Easy"
+            android:textColor="#000000" />
+
+        <RadioButton
+            android:id="@+id/radio_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroup_Click"
+            android:text="Medium"
+            android:textColor="#000000" />
+
+        <RadioButton
+            android:id="@+id/radio_hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="RadioGroup_Click"
+            android:text="Hard"
+            android:textColor="#000000" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView_difficulty"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26dp"
+        android:text="About "
+        android:textColor="#FFFFFF" />
+
+</RelativeLayout>

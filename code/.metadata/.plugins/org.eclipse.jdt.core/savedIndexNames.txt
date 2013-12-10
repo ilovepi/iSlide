@@ -1,4 +1,0 @@
-INDEX VERSION 1.126+C:\Users\tyler\Documents\GitHub\iSlide\code\.metadata\.plugins\org.eclipse.jdt.core
-881480661.index
-602813524.index
-4066494947.index
