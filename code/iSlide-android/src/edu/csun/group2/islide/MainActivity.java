@@ -13,7 +13,9 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = true; //test
         
-        initialize(new iSlide(), cfg); 
+        UtilityInfo ui = Utility.CreateUtilityInfo();
+        
+        initialize(new iSlide(ui.puzzleSize, ui.path), cfg ); 
     }
     @Override
     public void onStop()

@@ -63,22 +63,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:textColor="#000000"
-            android:text="Easy" />
+            android:onClick="RadioGroup_Click"
+            android:text="Easy"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/radio_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:text="Medium" />
+            android:onClick="RadioGroup_Click"
+            android:text="Medium"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/radio_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:text="Hard" />
+            android:onClick="RadioGroup_Click"
+            android:text="Hard"
+            android:textColor="#000000" />
+
     </RadioGroup>
 
     <Button

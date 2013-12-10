@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.os.Environment;
@@ -34,7 +35,7 @@ public class PhotoHandler implements PictureCallback {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmmss");
 		String date = dateFormat.format(new Date());
-		String photoFile = "Picture_" + date + ".jpg";
+		String photoFile = "ISLIDE_IMG" + ".jpg";
 
 		String filename = pictureFileDir.getPath() + File.separator + photoFile;
 
@@ -46,6 +47,13 @@ public class PhotoHandler implements PictureCallback {
 			fos.close();
 			Toast.makeText(context, "New Image saved:" + photoFile,
 					Toast.LENGTH_LONG).show();
+			Utility.fileLocation = filename;
+			Utility.picTaken = true;
+			camera.release();
+			Intent i = new Intent(context,
+					MainActivity.class);
+			context.startActivity(i);
+			
 		} catch (Exception error) {
 			Toast.makeText(context, "Image could not be saved.",
 					Toast.LENGTH_LONG).show();

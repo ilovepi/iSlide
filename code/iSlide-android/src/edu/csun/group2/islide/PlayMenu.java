@@ -17,7 +17,7 @@ public class PlayMenu extends Activity {
 		setButtonHandlers();
 	}
 	private void setButtonHandlers() {
-	    //((Button) findViewById(R.id.btn_select)).setOnClickListener(btnClick);  
+	    ((Button) findViewById(R.id.btn_select)).setOnClickListener(btnClick);  
 	    //((Button) findViewById(R.id.btn_gallery)).setOnClickListener(btnClick);
 	    ((Button) findViewById(R.id.btn_test)).setOnClickListener(btnClick);
 	}
@@ -32,11 +32,12 @@ public class PlayMenu extends Activity {
 	                break;
 	            }
 	            //add camera interaction here
-	            /*case R.id.btn_select: {
-	            	Intent select = new Intent(PlayMenu.this, .class);
+	            case R.id.btn_select: {
+	            	Intent select = new Intent(PlayMenu.this, TakePictureActivity.class);
 	            	startActivity(select);
 	                break;
 	            }
+	            /*
 	            case R.id.btn_gallery: {
 	            	Intent gallery = new Intent(PlayMenu.this, .class);
 	            	startActivity(gallery);
