@@ -7,6 +7,8 @@ import java.util.Arrays;
 
 import sun.io.Converters;
 
+import android.widget.Toast;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -67,16 +69,17 @@ public class GameManager implements IRenderable {
 			if (stepThroughSolver())
 				tileManager.update(elapsedMillis);
 		} else {
-
-			if (GameInfo.getInstance().touching){
-				try {
-					if (!scoreRecorded) {
-						publishScore(this.score);
-						scoreRecorded = true;
-					}
-				} catch (Exception e) {
-					//Couldn't Write To file??
+			try {
+				if (!scoreRecorded) {
+					publishScore(this.score);
+					scoreRecorded = true;
+					Gdx.app.wait(2000);
 				}
+			} catch (Exception e) {
+				//Couldn't Write To file??
+				
+			}
+			if (GameInfo.getInstance().touching){
 				Gdx.app.exit();
 			}
 		}
@@ -102,7 +105,7 @@ public class GameManager implements IRenderable {
 			fh.writeString(scoreString, true);
 		}
 	}
-
+	
 	/**
 	 * Helper method to play sound
 	 */
