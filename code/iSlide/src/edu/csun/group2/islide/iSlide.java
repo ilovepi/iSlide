@@ -14,23 +14,25 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 
 import edu.csun.group2.islide.engine.GameManager;
 import edu.csun.group2.islide.engine.InputHandler;
 import edu.csun.group2.islide.global.GameInfo;
 
 public class iSlide extends Game {
-
+	
+	public static final int PROJECTED_WIDTH = 480;
+	public static final int PROJECTED_HEIGHT = 800;
+	public static final boolean INVERTED_Y = true;
+	public static final boolean INVERTED_X = false;
+	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	GameManager gameManager;
+	private GameManager gameManager;
 	private long startTime;
 	private BitmapFont font;
-	Rectangle r2;
-	int size;
-	String path;
+	private int size;
+	private String path;
 	private boolean playSound;
 
 	public iSlide(int puzzleSize, String path, boolean sound) {
@@ -45,41 +47,39 @@ public class iSlide extends Game {
 
 	@Override
 	public void create() {
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		camera = new OrthographicCamera(480, 800);
-		camera.setToOrtho(true, 480, 800);
+		camera = new OrthographicCamera(PROJECTED_WIDTH, PROJECTED_HEIGHT);
+		camera.setToOrtho(INVERTED_Y, PROJECTED_WIDTH, PROJECTED_HEIGHT);
 		camera.update();
-
 		batch = new SpriteBatch();
-
+		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
-
+		
 		InputHandler input = new InputHandler();
 		Gdx.input.setInputProcessor(input);
-
 		
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 		font.setScale(2.0f);
 		font.setScale(2, -2);
+
 		if (this.path != "") {
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			Bitmap newBmp = Bitmap.createScaledBitmap(bmp, 480, 480, false);
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			newBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			byte[] bytes = stream.toByteArray();
-			Pixmap p = new Pixmap(bytes,0,bytes.length);
+			Pixmap p = new Pixmap(bytes, 0, bytes.length);
 			Texture t = new Texture(p);
-			gameManager = new GameManager(size,t, playSound);
+			gameManager = new GameManager(size, t, playSound);
+		} else {
+			gameManager = new GameManager(size, new Texture(
+					"data/testimage.png"), playSound);
 		}
-		else{
-			gameManager = new GameManager(size,  new Texture("data/testimage.png"), playSound);
-		}
+
 		batch.setProjectionMatrix(camera.combined);
-		startTime = System.currentTimeMillis();
 		GameInfo.getInstance().gameCamera = camera;
 
+		startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -101,20 +101,15 @@ public class iSlide extends Game {
 	}
 
 	private void update(long elapsedMillis) {
-		if (gameManager != null) {
+		if (gameManager != null)
 			this.gameManager.update(elapsedMillis);
-		}
-
 	}
 
 	private void draw(SpriteBatch spriteBatch) {
 		if (spriteBatch != null) {
 			spriteBatch.begin();
-			{
-				if (gameManager != null) {
-					this.gameManager.draw(spriteBatch);
-				}
-			}
+			if (gameManager != null)
+				this.gameManager.draw(spriteBatch);
 			spriteBatch.end();
 		}
 	}

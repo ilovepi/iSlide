@@ -1,7 +1,15 @@
 package edu.csun.group2.islide.engine;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
+import sun.io.Converters;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -57,8 +65,15 @@ public class GameManager implements IRenderable {
 			if (stepThroughSolver())
 				tileManager.update(elapsedMillis);
 		} else {
-			if (GameInfo.getInstance().touching)
+
+			if (GameInfo.getInstance().touching){
+				try {
+					publishScore(this.score);
+				} catch (Exception e) {
+					//Couldn't Write To file??
+				}
 				Gdx.app.exit();
+			}
 		}
 		
 		if (GameInfo.getInstance().touching && justTouched) {
@@ -68,9 +83,19 @@ public class GameManager implements IRenderable {
 		}
 	}
 
+	
 	@Override
 	public void draw(SpriteBatch spriteBatch) {
 		tileManager.draw(spriteBatch);
+	}
+
+	private void publishScore(int score) throws IOException {
+		if (score > 0) {
+			String scoreString = score + "\t\t\t" + size + "X" + size + "\n";
+
+			FileHandle fh = Gdx.files.external(GameInfo.HIGH_SCORE_PATH);
+			fh.writeString(scoreString, true);
+		}
 	}
 
 	/**

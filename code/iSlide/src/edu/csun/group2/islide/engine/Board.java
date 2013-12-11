@@ -40,6 +40,7 @@ public class Board {
 	}
 	
 	//! copy constructor
+	@SuppressWarnings("unchecked")
 	public Board(Board other)
 	{
 		width = other.width;
@@ -59,6 +60,7 @@ public class Board {
 		int width = board.width;
 		int board_size = board.board_size;
 		int empty = board.empty;
+		@SuppressWarnings("unchecked")
 		ArrayList<Byte> ary =(ArrayList<Byte>)board.ary.clone();
 		
 		//do we have an even number of inversions?

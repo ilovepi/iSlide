@@ -9,6 +9,7 @@ public class UtilityInfo {
 	public int score;
 	public boolean sound;
 	public String path;
+	//Factory Style, takes existing data and creates and object for it
 	public UtilityInfo(int puzzleSize, int score, boolean sound, String path)
 	{
 		this.puzzleSize = puzzleSize;

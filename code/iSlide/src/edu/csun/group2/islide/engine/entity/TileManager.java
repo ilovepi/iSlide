@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+import edu.csun.group2.islide.iSlide;
 import edu.csun.group2.islide.engine.GameBoard;
 import edu.csun.group2.islide.engine.GameManager;
 import edu.csun.group2.islide.global.GameInfo;
@@ -18,22 +18,19 @@ public class TileManager implements IRenderable {
 
 	public Texture tileTexture;
 	public GameBoard board;
-	
-	SlideTile[] tiles;
-	
 	public int tWidth;
-	public int xOffSet; 
-	public int yOffSet;
 	public int size;
 	public boolean justTouched;
 	public boolean touchEnabled;
-	public BitmapFont font;
-	Vector3 unprojectionVector;
 	
+	private int totalTiles;
+	private BitmapFont font;
+	private SlideTile[] tiles;
+	private Vector3 unprojectionVector;
 	private Rectangle solveButton;
 	private Sprite solveTexture;
 	private GameManager gameManager;
-	
+
 
 	/**
 	 * Instantiate New Tile Manager
@@ -44,47 +41,45 @@ public class TileManager implements IRenderable {
 	 *            Image to use
 	 */
 	public TileManager(int size, Texture texture, GameManager manager) {
-		init(0, 0, size, texture, manager);
+		init(size, texture, manager);
 	}
 
-	private void init(int xOffSet, int yOffSet, int size, Texture texture,
-			GameManager manager) {
+	private void init(int size, Texture texture, GameManager manager) {
 		this.gameManager = manager;
 		this.size = size;
-		this.xOffSet = xOffSet;
-		this.yOffSet = yOffSet;
-		tileTexture = texture;
-		board = new GameBoard(size);
+		this.tileTexture = texture;
+		this.board = new GameBoard(size);
 
-		tiles = new SlideTile[size * size];
-		tWidth = texture.getWidth() / size;
-		font = new BitmapFont();
-		font.setColor(Color.BLACK);
-		font.setScale(2, -2);
-		touchEnabled = true;
+		this.tiles = new SlideTile[size * size];
+		this.tWidth = texture.getWidth() / size;
+		this.font = new BitmapFont();
+		this.font.setColor(Color.BLACK);
+		this.font.setScale(2, -2);
+		this.touchEnabled = true;
 
-		solveButton = new Rectangle(0, texture.getHeight() + 100, 400, 100);
-		solveTexture = new Sprite(new Texture("data/solvebutton.png"));
-		solveTexture.flip(false, true);
-		solveTexture.setX(solveButton.x);
-		solveTexture.setY(solveButton.y);
+		this.solveButton = new Rectangle(0, texture.getHeight() + 100, 400, 100);
+		this.solveTexture = new Sprite(new Texture("data/solvebutton.png"));
+		this.solveTexture.flip(false, true);
+		this.solveTexture.setX(solveButton.x);
+		this.solveTexture.setY(solveButton.y);
 
-		for (int i = 0; i < size * size; i++) {
-			int id = (int) board.ary.get(i);
-			Sprite passSprite;
-			if (id != 0) {
-				passSprite = new Sprite(texture, (id % size) * tWidth,
-						(id / size) * tWidth, tWidth, tWidth);
-				passSprite.flip(false, true);
+		this.totalTiles = size * size;
+		for (int i = 0; i < totalTiles; i++) {
+			int id = (int) board.ary.get(i);								//Map the value of the board based on current index
+			Sprite passSprite;												//Create a Sprite here because the params may differ
+			if (id != 0) {													//if it isn't the empty sprite
+				passSprite = new Sprite(texture, (id % size) * tWidth,		//set the sprite = to a sub section of the texture based on which id
+						(id / size) * tWidth, tWidth, tWidth);				//exists on the board at current index.
+				passSprite.flip(iSlide.INVERTED_X, iSlide.INVERTED_Y);		//Flip the sprite to match the libgdx coordinate flip
 
-				tiles[id] = (new SlideTile(((i % size) * tWidth) + xOffSet,
-						((i / size) * tWidth) + yOffSet, tWidth, tWidth, id,
-						passSprite));
+				tiles[id] = (new SlideTile(((i % size) * tWidth), 			//We insert into the array at the current value of the board
+						((i / size) * tWidth), tWidth, tWidth, id,			//Add any offsets as necessary
+						passSprite));										//And set it's current position based on the board value 
 			} else {
-				passSprite = new Sprite(texture, 0, 0);
-				passSprite.flip(false, true);
-				tiles[id] = (new SlideTile(((i % size) * tWidth) + xOffSet,
-						((i / size) * tWidth) + yOffSet, tWidth, tWidth, id,
+				passSprite = new Sprite(texture, 0, 0);						//Otherwise it if is the empty sprite
+				passSprite.flip(iSlide.INVERTED_X, iSlide.INVERTED_Y);		//we create a tile with no texture
+				tiles[id] = (new SlideTile(((i % size) * tWidth),
+						((i / size) * tWidth), tWidth, tWidth, id,
 						passSprite));
 			}
 		}
@@ -95,26 +90,61 @@ public class TileManager implements IRenderable {
 	 */
 	@Override
 	public void update(long elapsedMillis) {
-		boolean moved = false;
+		handleInput();
+		updateTilePositions(elapsedMillis);
+	}
+	@Override
+	public void draw(SpriteBatch spriteBatch) {
+		for (SlideTile tile : tiles) {
+			tile.draw(spriteBatch);
+			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y);
+		}
+		solveTexture.draw(spriteBatch);
+	}
+	
+	/**
+	 * Private helper method to clean up and modularize code
+	 * 
+	 * @param elapsedMillis
+	 *            Time since last frame elapse
+	 */
+	private void updateTilePositions(long elapsedMillis) {
+		for (int i = 0; i < (size * size); i++) {
+
+			int id = (int) board.ary.get(i);
+			for (int j = 0; j < tiles.length; j++) {
+				if (tiles[j].tile_id == id) {
+					tiles[j].x = ((i % size) * tWidth);
+					tiles[j].y = (((i / size)) * tWidth);
+				}
+				tiles[j].update(elapsedMillis);
+			}
+
+		}
+	}
+	/**
+	 * Private helper method to clean up and modularize code
+	 */
+	private void handleInput()
+	{
 		if (touchEnabled) {
-			for (int i = 0; i < (size * size); i++) {
+			for (int i = 0; i < totalTiles; i++) {
 				if (tiles[board.ary.get(i)].tile_id == 0
 						|| !GameInfo.getInstance().touching)
 					continue;
 				unprojectionVector = new Vector3(
 						GameInfo.getInstance().touchRectangle.x,
-						GameInfo.getInstance().touchRectangle.y, 0);
-				GameInfo.getInstance().gameCamera.unproject(unprojectionVector);
-
+						GameInfo.getInstance().touchRectangle.y, 0);				//To match Libgdx's coordinate system we have to
+				GameInfo.getInstance().gameCamera.unproject(unprojectionVector);	//Unproject the Orthographic Camera and map to the screen
 				Rectangle unprojectedRect = new Rectangle(unprojectionVector.x,
 						unprojectionVector.y, 1, 1);
 				Rectangle cRect = new Rectangle(tiles[board.ary.get(i)].x,
 						tiles[board.ary.get(i)].y, tWidth, tWidth);
-
 				if (GameInfo.getInstance().touching
 						&& GameInfo.getInstance().touchRectangle != null
 						&& unprojectedRect.overlaps(cRect) && !justTouched) {
-					moved = board.move(i);
+					board.move(i);
+					gameManager.score += 1;
 					justTouched = true;
 				} else if (GameInfo.getInstance().touching
 						&& GameInfo.getInstance().touchRectangle != null
@@ -122,42 +152,12 @@ public class TileManager implements IRenderable {
 						&& !justTouched) {
 					justTouched = true;
 					this.gameManager.solving = true;
+					gameManager.score = 0;
 				}
-
 			}
 			if (!GameInfo.getInstance().touching) {
 				justTouched = false;
 			}
 		}
-		if (true) {
-			for (int i = 0; i < (size * size); i++) {
-
-				int id = (int) board.ary.get(i);
-				for (int j = 0; j < tiles.length; j++) {
-					if (tiles[j].tile_id != id) {
-
-					} else {
-						tiles[j].x = ((i % size) * tWidth) + xOffSet;
-						tiles[j].y = (((i / size)) * tWidth) + yOffSet;
-					}
-					tiles[j].update(elapsedMillis);
-				}
-
-			}
-		}
-
-	}
-
-	@Override
-	public void draw(SpriteBatch spriteBatch) {
-		for (SlideTile tile : tiles) {
-			tile.draw(spriteBatch);
-			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
-		}
-		solveTexture.draw(spriteBatch);
-	}
-
-	public void GlDraw() {
-
 	}
 }

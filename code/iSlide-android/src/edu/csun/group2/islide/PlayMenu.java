@@ -27,6 +27,7 @@ public class PlayMenu extends Activity {
 	    public void onClick(View v) {
 	        switch (v.getId()) {
 	            case R.id.btn_test: {
+	            	Utility.fileLocation="";
 	            	Intent test = new Intent(PlayMenu.this, MainActivity.class);
 	            	startActivity(test);
 	                break;

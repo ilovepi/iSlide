@@ -1,11 +1,10 @@
 package edu.csun.group2.islide.engine;
 
-import java.util.ArrayList;
 import java.util.ArrayDeque;
-//import java.util.ArrayList;
-import java.util.Deque;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+//import java.util.ArrayList;
 
 
 public class GameBoard extends Board {
@@ -60,6 +59,7 @@ public class GameBoard extends Board {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public GameBoard(GameBoard other) {
 		super(other);
 		solution_stack = other.solution_stack.clone();
