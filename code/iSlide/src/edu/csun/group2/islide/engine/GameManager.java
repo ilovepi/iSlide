@@ -30,7 +30,8 @@ public class GameManager implements IRenderable {
 	public boolean justTouched;
 	public boolean running;
 	public boolean solving;
-
+	public boolean scoreRecorded;
+	
 	public Sound clickSound;
 	public Texture gameTexture;
 
@@ -51,6 +52,7 @@ public class GameManager implements IRenderable {
 		this.score = 0;
 		this.clickSound = Gdx.audio.newSound(Gdx.files
 				.internal("data/click.mp3"));
+		this.scoreRecorded = false;
 	}
 
 	@Override
@@ -68,7 +70,10 @@ public class GameManager implements IRenderable {
 
 			if (GameInfo.getInstance().touching){
 				try {
-					publishScore(this.score);
+					if (!scoreRecorded) {
+						publishScore(this.score);
+						scoreRecorded = true;
+					}
 				} catch (Exception e) {
 					//Couldn't Write To file??
 				}

@@ -24,6 +24,7 @@ public final class R {
         public static final int gray_bg=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int islidelogo=0x7f020002;
+        public static final int launch_icon=0x7f020003;
     }
     public static final class id {
         public static final int TextView_sound=0x7f07000c;
@@ -43,8 +44,8 @@ public final class R {
         public static final int radio_easy=0x7f07000f;
         public static final int radio_hard=0x7f070011;
         public static final int radio_medium=0x7f070010;
-        public static final int textView1=0x7f070008;
-        public static final int textViewScores=0x7f070007;
+        public static final int textView1=0x7f070007;
+        public static final int textViewScores=0x7f070008;
         public static final int textView_difficulty=0x7f07000d;
         public static final int textView_highscores=0x7f070006;
         public static final int wtfRadio=0x7f070012;
