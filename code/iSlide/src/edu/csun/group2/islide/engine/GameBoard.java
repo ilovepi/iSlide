@@ -18,7 +18,7 @@ public class GameBoard extends Board {
 		solution_code = this.ary.hashCode();
 		Random rand = new Random();
 		rand.setSeed(rand.nextInt(1000));// need to seed the number generator to make it deterministic.
-		int solution_length = rand.nextInt(1000);
+		int solution_length = rand.nextInt(32) + 18;
 		hash = new HashMap<Integer, Board>(solution_length);
 		solution_stack = new ArrayDeque<Pair>(solution_length);
 		
