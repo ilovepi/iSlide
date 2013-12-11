@@ -52,6 +52,7 @@ public class PhotoHandler implements PictureCallback {
 			camera.release();
 			Intent i = new Intent(context,
 					MainActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			context.startActivity(i);
 			return;
 			

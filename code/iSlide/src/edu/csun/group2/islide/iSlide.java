@@ -27,8 +27,6 @@ public class iSlide extends Game {
 	private SpriteBatch batch;
 	GameManager gameManager;
 	private long startTime;
-	private Rectangle glViewport;
-	private ShapeRenderer renderer;
 	private BitmapFont font;
 	Rectangle r2;
 	int size;
@@ -53,8 +51,6 @@ public class iSlide extends Game {
 		camera.setToOrtho(true, 480, 800);
 		camera.update();
 
-		// camera.position.set(w / 2, h / 2, 1);
-		glViewport = new Rectangle(0, 0, w, h);
 		batch = new SpriteBatch();
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -62,7 +58,7 @@ public class iSlide extends Game {
 		InputHandler input = new InputHandler();
 		Gdx.input.setInputProcessor(input);
 
-		renderer = new ShapeRenderer();
+		
 		font = new BitmapFont();
 		font.setColor(Color.BLACK);
 		font.setScale(2.0f);
@@ -102,9 +98,6 @@ public class iSlide extends Game {
 			batch.setProjectionMatrix(camera.combined);
 			draw(batch);
 		}
-		Gdx.gl.glViewport((int) glViewport.x, (int) glViewport.y,
-				(int) glViewport.width, (int) glViewport.height);
-
 	}
 
 	private void update(long elapsedMillis) {
@@ -124,7 +117,6 @@ public class iSlide extends Game {
 			}
 			spriteBatch.end();
 		}
-		gameManager.GlDraw();
 	}
 
 	@Override

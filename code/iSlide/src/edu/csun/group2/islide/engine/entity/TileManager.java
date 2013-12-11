@@ -16,24 +16,24 @@ import edu.csun.group2.islide.interfaces.IRenderable;
 
 public class TileManager implements IRenderable {
 
-	Texture tileTexture;
+	public Texture tileTexture;
 	public GameBoard board;
+	
 	SlideTile[] tiles;
-	private Texture emptyTexture;
-	int tWidth;
-	int xOffSet, yOffSet;
-	ShapeRenderer shapes;
-	int size;
-	boolean justTouched;
-	BitmapFont font;
-	String tileTouchedID;
-	Vector3 unprojectionVector;
-	Rectangle solveButton;
-	Rectangle hintButton;
-	Sprite solveTexture;
-	Sprite hintTexture;
-	GameManager gameManager;
+	
+	public int tWidth;
+	public int xOffSet; 
+	public int yOffSet;
+	public int size;
+	public boolean justTouched;
 	public boolean touchEnabled;
+	public BitmapFont font;
+	Vector3 unprojectionVector;
+	
+	private Rectangle solveButton;
+	private Sprite solveTexture;
+	private GameManager gameManager;
+	
 
 	/**
 	 * Instantiate New Tile Manager
@@ -45,23 +45,6 @@ public class TileManager implements IRenderable {
 	 */
 	public TileManager(int size, Texture texture, GameManager manager) {
 		init(0, 0, size, texture, manager);
-	}
-
-	/**
-	 * Instantiate new Tile Manager
-	 * 
-	 * @param x
-	 *            X origin of where the tiles show up
-	 * @param y
-	 *            Y origin of where the tiles show up
-	 * @param size
-	 *            Tile Count for width/height
-	 * @param texture
-	 *            image to use for puzzle
-	 */
-	public TileManager(int x, int y, int size, Texture texture,
-			GameManager manager) {
-		init(x, y, size, texture, manager);
 	}
 
 	private void init(int xOffSet, int yOffSet, int size, Texture texture,
@@ -80,19 +63,11 @@ public class TileManager implements IRenderable {
 		font.setScale(2, -2);
 		touchEnabled = true;
 
-		solveButton = new Rectangle(0, texture.getHeight() + 230, 400, 100);
-		hintButton = new Rectangle(0, texture.getHeight() + 100, 400, 100);
-
+		solveButton = new Rectangle(0, texture.getHeight() + 100, 400, 100);
 		solveTexture = new Sprite(new Texture("data/solvebutton.png"));
-		hintTexture = new Sprite(new Texture("data/hintbutton.png"));
 		solveTexture.flip(false, true);
-		hintTexture.flip(false, true);
-
 		solveTexture.setX(solveButton.x);
 		solveTexture.setY(solveButton.y);
-
-		hintTexture.setX(hintButton.x);
-		hintTexture.setY(hintButton.y);
 
 		for (int i = 0; i < size * size; i++) {
 			int id = (int) board.ary.get(i);
@@ -143,12 +118,6 @@ public class TileManager implements IRenderable {
 					justTouched = true;
 				} else if (GameInfo.getInstance().touching
 						&& GameInfo.getInstance().touchRectangle != null
-						&& unprojectedRect.overlaps(this.hintButton)
-						&& !justTouched) {
-					board.solve();
-					justTouched = true;
-				} else if (GameInfo.getInstance().touching
-						&& GameInfo.getInstance().touchRectangle != null
 						&& unprojectedRect.overlaps(this.solveButton)
 						&& !justTouched) {
 					justTouched = true;
@@ -186,7 +155,6 @@ public class TileManager implements IRenderable {
 			font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y + yOffSet);
 		}
 		solveTexture.draw(spriteBatch);
-		hintTexture.draw(spriteBatch);
 	}
 
 	public void GlDraw() {

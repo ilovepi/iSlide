@@ -23,6 +23,7 @@ public class MainActivity extends AndroidApplication {
     {
     	super.onStop();
     	Intent i = new Intent(this, MainMenuActivity.class);
+    	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	startActivity(i);
     }
 }

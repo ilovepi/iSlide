@@ -31,9 +31,4 @@ public class SlideTile implements IRenderable{
 		this.sprite.draw(spriteBatch);
 	}
 	
-	@Override
-	public void GlDraw() {
-		
-		
-	}
 }

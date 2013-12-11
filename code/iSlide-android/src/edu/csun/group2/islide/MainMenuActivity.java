@@ -27,10 +27,6 @@ public class MainMenuActivity extends Activity {
 	    ((Button) findViewById(R.id.btn_settings)).setOnClickListener(btnClick);
 	    ((Button) findViewById(R.id.btn_highscores)).setOnClickListener(btnClick);
 	}
-	
-	
-	
-	
 	private View.OnClickListener btnClick = new View.OnClickListener() {
 	    @Override
 	    public void onClick(View v) {
