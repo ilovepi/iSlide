@@ -64,7 +64,7 @@ public class iSlide extends Game {
 
 		if (this.path != "") {
 			Bitmap bmp = BitmapFactory.decodeFile(path);
-			Bitmap newBmp = Bitmap.createScaledBitmap(bmp, 480, 480, false);
+			Bitmap newBmp = Bitmap.createScaledBitmap(bmp, PROJECTED_WIDTH, PROJECTED_WIDTH, false);
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			newBmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
 			byte[] bytes = stream.toByteArray();
