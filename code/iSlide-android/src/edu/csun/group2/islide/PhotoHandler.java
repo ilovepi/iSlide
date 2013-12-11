@@ -53,6 +53,7 @@ public class PhotoHandler implements PictureCallback {
 			Intent i = new Intent(context,
 					MainActivity.class);
 			context.startActivity(i);
+			return;
 			
 		} catch (Exception error) {
 			Toast.makeText(context, "Image could not be saved.",

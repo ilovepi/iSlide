@@ -33,14 +33,16 @@ public class iSlide extends Game {
 	Rectangle r2;
 	int size;
 	String path;
+	private boolean playSound;
 
-	public iSlide(int puzzleSize, String path) {
-		init(puzzleSize, path);
+	public iSlide(int puzzleSize, String path, boolean sound) {
+		init(puzzleSize, path, sound);
 	}
 
-	private void init(int puzzleSize, String imgPath) {
+	private void init(int puzzleSize, String imgPath, boolean sound) {
 		this.size = puzzleSize;
 		this.path = imgPath;
+		this.playSound = sound;
 	}
 
 	@Override
@@ -65,7 +67,6 @@ public class iSlide extends Game {
 		font.setColor(Color.BLACK);
 		font.setScale(2.0f);
 		font.setScale(2, -2);
-		// testSprite = new Sprite(new Texture("data/islidelogo.png"));
 		if (this.path != "") {
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			Bitmap newBmp = Bitmap.createScaledBitmap(bmp, 480, 480, false);
@@ -74,10 +75,10 @@ public class iSlide extends Game {
 			byte[] bytes = stream.toByteArray();
 			Pixmap p = new Pixmap(bytes,0,bytes.length);
 			Texture t = new Texture(p);
-			gameManager = new GameManager(size,t);
+			gameManager = new GameManager(size,t, playSound);
 		}
 		else{
-			gameManager = new GameManager(size,  new Texture("data/testimage.png"));
+			gameManager = new GameManager(size,  new Texture("data/testimage.png"), playSound);
 		}
 		batch.setProjectionMatrix(camera.combined);
 		startTime = System.currentTimeMillis();
@@ -87,6 +88,7 @@ public class iSlide extends Game {
 
 	@Override
 	public void dispose() {
+		batch.dispose();
 		super.dispose();
 	}
 

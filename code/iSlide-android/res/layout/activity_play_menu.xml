@@ -25,7 +25,7 @@
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="Select Picture From Camera"
+        android:text="Take a Picture with Camera"
         android:textColor="#FFFFFF" />
 
     <!--

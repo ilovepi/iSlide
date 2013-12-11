@@ -1,5 +1,6 @@
 package edu.csun.group2.islide;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -15,12 +16,13 @@ public class MainActivity extends AndroidApplication {
         
         UtilityInfo ui = Utility.CreateUtilityInfo();
         
-        initialize(new iSlide(ui.puzzleSize, ui.path), cfg ); 
+        initialize(new iSlide(ui.puzzleSize, ui.path, ui.sound), cfg ); 
     }
     @Override
     public void onStop()
     {
     	super.onStop();
-    	//start new Activity
+    	Intent i = new Intent(this, MainMenuActivity.class);
+    	startActivity(i);
     }
 }
