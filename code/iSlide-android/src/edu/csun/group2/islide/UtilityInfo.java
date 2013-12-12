@@ -9,12 +9,14 @@ public class UtilityInfo {
 	public int score;
 	public boolean sound;
 	public String path;
+	public boolean showNumbers;
 	//Factory Style, takes existing data and creates and object for it
-	public UtilityInfo(int puzzleSize, int score, boolean sound, String path)
+	public UtilityInfo(int puzzleSize, int score, boolean sound, String path, boolean showNumbers)
 	{
 		this.puzzleSize = puzzleSize;
 		this.score = score;
 		this.sound = sound;
 		this.path = path;
+		this.showNumbers = showNumbers;
 	}
 }

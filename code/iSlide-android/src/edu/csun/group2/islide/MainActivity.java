@@ -13,7 +13,7 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = true; 									//Using GL 2.0 allows us to have textures that 
         UtilityInfo ui = Utility.CreateUtilityInfo();			//don't need dimensions that are a power of 2
-        initialize(new iSlide(ui.puzzleSize, ui.path, ui.sound), cfg ); 
+        initialize(new iSlide(ui.puzzleSize, ui.path, ui.sound, ui.showNumbers), cfg ); 
     }
     @Override
     public void onStop()

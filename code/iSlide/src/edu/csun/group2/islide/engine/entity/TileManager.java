@@ -97,7 +97,7 @@ public class TileManager implements IRenderable {
 	public void draw(SpriteBatch spriteBatch) {
 		for (SlideTile tile : tiles) {
 			tile.draw(spriteBatch);
-			if (gameManager.running) {
+			if (gameManager.running && GameInfo.getInstance().showNumbers) {
 				font.draw(spriteBatch, tile.tile_id + "", tile.x, tile.y);
 			}
 		}

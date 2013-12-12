@@ -7,7 +7,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
-    tools:context=".MainMenuActivity" >
 
     <ImageView
         android:id="@+id/imageView1"
@@ -18,26 +17,25 @@
         android:layout_marginTop="14dp"
         android:src="@drawable/islidelogo" />
 
-    <CheckBox
-        android:id="@+id/checkBox_music"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView_sound"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:onClick="SoundEnabled_onClick"
-        android:text="Sound Enabled"
-        android:textColor="#000000" />
-
     <TextView
         android:id="@+id/TextView_sound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="15dp"
         android:text="Sound"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000" />
+
+    <CheckBox
+        android:id="@+id/checkBox_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TextView_sound"
+        android:layout_centerHorizontal="true"
+        android:onClick="SoundEnabled_onClick"
+        android:text="Sound Enabled"
         android:textColor="#000000" />
 
     <TextView
@@ -46,17 +44,36 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkBox_music"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
         android:text="Difficulty"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/btn_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/textView_difficulty"
+        android:text="About "
+        android:textColor="#FFFFFF" />
+
+    <CheckBox
+        android:id="@+id/checkBox_numbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/checkBox_music"
+        android:layout_below="@+id/radioGroup_difficulty"
+        android:layout_marginTop="18dp"
+        android:onClick="CheckBoxNumbers_Click"
+        android:text="Show Tile Numbers"
         android:textColor="#000000" />
 
     <RadioGroup
         android:id="@+id/radioGroup_difficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/checkBox_music"
-        android:layout_below="@+id/textView_difficulty" >
+        android:layout_below="@+id/textView_difficulty"
+        android:layout_centerHorizontal="true" >
 
         <RadioButton
             android:id="@+id/radio_easy"
@@ -88,17 +105,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="RadioGroup_Click"
-            android:text="WTF" />
-
+            android:text="Really Hard!"
+            android:textColor="#000000" />
     </RadioGroup>
-
-    <Button
-        android:id="@+id/btn_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textView_difficulty"
-        android:text="About "
-        android:textColor="#FFFFFF" />
 
 </RelativeLayout>

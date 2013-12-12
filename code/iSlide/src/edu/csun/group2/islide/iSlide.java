@@ -26,6 +26,7 @@ public class iSlide extends Game {
 	public static final boolean INVERTED_Y = true;
 	public static final boolean INVERTED_X = false;
 	
+	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private GameManager gameManager;
@@ -35,14 +36,15 @@ public class iSlide extends Game {
 	private String path;
 	private boolean playSound;
 
-	public iSlide(int puzzleSize, String path, boolean sound) {
-		init(puzzleSize, path, sound);
+	public iSlide(int puzzleSize, String path, boolean sound, boolean showNum) {
+		init(puzzleSize, path, sound, showNum);
 	}
 
-	private void init(int puzzleSize, String imgPath, boolean sound) {
+	private void init(int puzzleSize, String imgPath, boolean sound, boolean showNum) {
 		this.size = puzzleSize;
 		this.path = imgPath;
 		this.playSound = sound;
+		GameInfo.getInstance().showNumbers = showNum;
 	}
 
 	@Override

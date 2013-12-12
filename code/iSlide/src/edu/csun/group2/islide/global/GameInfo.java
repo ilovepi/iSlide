@@ -11,7 +11,7 @@ public class GameInfo {
 	public boolean justTouched;
 	public Rectangle touchRectangle;
 	public OrthographicCamera gameCamera;
-	
+	public boolean showNumbers = true;
 	private static GameInfo INSTANCE = new GameInfo();
 	
 	public static GameInfo getInstance()

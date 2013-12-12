@@ -1,14 +1,11 @@
 package edu.csun.group2.islide;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 public class SettingsMenu extends Activity {
@@ -38,6 +35,11 @@ public class SettingsMenu extends Activity {
 		if(Utility.sound)
 		{
 			CheckBox c = (CheckBox) findViewById(R.id.checkBox_music);
+			c.setChecked(true);
+		}
+		if(Utility.showNumbers)
+		{
+			CheckBox c = (CheckBox) findViewById(R.id.checkBox_numbers);
 			c.setChecked(true);
 		}
 	}
@@ -74,7 +76,15 @@ public class SettingsMenu extends Activity {
 			Utility.sound = false;
 		}
 	}
-
+	public void CheckBoxNumbers_Click(View v)
+	{
+		CheckBox c = (CheckBox) findViewById(R.id.checkBox_numbers);
+		if (c.isChecked()) {
+			Utility.showNumbers = true;
+		} else {
+			Utility.showNumbers = false;
+		}
+	}
 	private View.OnClickListener btnClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {

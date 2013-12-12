@@ -6,9 +6,10 @@ public class Utility {
 	public static int size = 4;
 	public static boolean sound = false;
 	public static String fileLocation = "";
+	public static boolean showNumbers = true;
 	public static UtilityInfo CreateUtilityInfo()
 	{
-		UtilityInfo ui = new UtilityInfo(size,0,sound,fileLocation);
+		UtilityInfo ui = new UtilityInfo(size,0,sound,fileLocation, showNumbers);
 		return ui;
 	}
 }
