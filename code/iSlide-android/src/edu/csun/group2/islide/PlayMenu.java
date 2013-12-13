@@ -41,7 +41,7 @@ public class PlayMenu extends Activity {
 	            //add camera interaction here
 	            case R.id.btn_select: {
 	            	if(android.os.Build.VERSION.SDK_INT >= 9){
-	            		Intent select = new Intent(PlayMenu.this, TakePictureActivity.class);
+	            		Intent select = new Intent(PlayMenu.this, SelectImageActivity.class);
 	            		startActivity(select);
 	            	}
 	            	else{
